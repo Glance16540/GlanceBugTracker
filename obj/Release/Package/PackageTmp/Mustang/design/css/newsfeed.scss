@@ -1,0 +1,270 @@
+$white: #ffffff;
+$black: #000000;
+
+$body-bg: #35404f;
+$sky-blue: #f5f8fb;
+
+$red: #ea423f;
+$dark-red: #f35454;
+$yellow: #ffb400;
+$green: #3eb15b;
+$dark-green: #009688;
+$go-green: #90bf38;
+$blue: #3a86c8;
+$dark-blue: #2a303e;
+$dark-sea-blue: #607d8b;
+$usa-blue: #3b5998;
+
+$orange: #ed6d49;
+$brown: #8f6e5a;
+$brick: #c0504d;
+$teal: #47BCC7;
+$pink: #F782AA;
+$violet: #c38fbb;
+$purple: #500776;
+$mustard: #e3b442;
+$peach: #f5907c;
+$light-green: #aed048;
+$light-yellow: #fee074;
+$light-blue: #66c0dc;
+$light-orange: #fa9255;
+
+// Green Shades
+$green-one: #6dc6cd;
+$green-two: #52bf8a;
+$green-three: #638ca5;
+
+$facebook: #3B5998;
+$twitter: #55ACEE;
+$linkedin: #007BB5;
+$gplus: #E02F2F;
+$instagram: #5280a4;
+$pinterest: #cb2027;
+$blog: #FF8329;
+$youtube : #bb0000;
+$dribbble: #ea4c89;
+
+// Green Shades
+$green-one: #6dc6cd;
+$green-two: #52bf8a;
+$green-three: #638ca5;
+
+$facebook: #3B5998;
+$twitter: #55ACEE;
+$linkedin: #007BB5;
+$gplus: #E02F2F;
+$instagram: #5280a4;
+
+// Open Sans Light
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Light.ttf') format('ttf');
+	font-weight: 300;
+	font-style: normal;
+}
+// Open Sans Regular
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Regular.ttf') format('ttf');
+	font-weight: 400;
+	font-style: normal;
+}
+// Open Sans Bold
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Bold.ttf') format('ttf');
+	font-weight: 700;
+	font-style: normal;
+}
+
+/****************  Mixins  ****************/
+
+// Gradients
+@mixin linear-gradient($fromColor, $toColor) {
+	background-color: $toColor; /* Fallback Color */
+	background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, $fromColor, $toColor); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image: -moz-linear-gradient(top, $fromColor, $toColor); /* FF3.6 */
+	background-image: -ms-linear-gradient(top, $fromColor, $toColor); /* IE10 */
+	background-image: -o-linear-gradient(top, $fromColor, $toColor); /* Opera 11.10+ */
+	background-image: linear-gradient(top, $fromColor, $toColor);
+}
+@mixin gradient-ver-three-colors($startColor: #00b3ee, $midColor: #7a43b6, $colorStop: 50%, $endColor: #c3325f) {
+	background-color: mix($midColor, $endColor, 80%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), color-stop($colorStop, $midColor), to($endColor));
+	background-image: -webkit-linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-image: -moz-linear-gradient(top, $startColor, $midColor $colorStop, $endColor);
+	background-image: -o-linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-image: linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-repeat: no-repeat;
+}
+
+// Transition
+@mixin transition($transition-property, $transition-time, $method) {
+	-webkit-transition: $transition-property $transition-time $method;
+	-moz-transition: $transition-property $transition-time $method;
+	-ms-transition: $transition-property $transition-time $method;
+	-o-transition: $transition-property $transition-time $method;
+	transition: $transition-property $transition-time $method;
+}
+
+// Box Sizing
+@mixin box-sizing($string){
+	-webkit-box-sizing: $string;
+	-moz-box-sizing: $string;
+	box-sizing: $string;
+}
+
+// Box Shadow
+@mixin box-shadow($off-y, $off-x, $blur, $color){
+	-moz-box-shadow: $off-y $off-x $blur $color;
+	-webkit-box-shadow: $off-y $off-x $blur $color;
+	box-shadow: $off-y $off-x $blur $color;
+}
+
+// Border Radius
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin border-radius-all-val($radius1, $radius2, $radius3, $radius4) {
+	-webkit-border-radius: $radius1 $radius2 $radius3 $radius4;
+	-moz-border-radius: $radius1 $radius2 $radius3 $radius4;
+	border-radius: $radius1 $radius2 $radius3 $radius4;
+}
+
+@mixin transform($args){
+	-webkit-transform: $args;
+	-moz-transform: $args;
+	-o-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
+
+// Opacity
+@mixin opacity($opacity) {
+	opacity: $opacity / 100;
+	filter: alpha(opacity=$opacity);
+}
+
+
+// Newsfeed CSS
+
+.media-list {
+	.media {
+		margin-top: 0;
+		.media-left {
+			a {
+				display: block;
+				img {
+					@include border-radius (3px);
+					width: 64px;
+					height: 64px;
+					border: 2px solid darken($white, 15%);
+    			padding: 2px;
+				}
+				.empty-avatar {
+					height: 64px;
+					width: 64px;
+					@include border-radius(10px);
+					border: 2px solid darken($white, 10%);
+					color: $white;
+					text-align: center;
+					line-height: 60px;
+					&.green {
+						background: $green;
+						border: 2px solid darken($green, 10%);
+					}
+					&.red {
+						background: $red;
+						border: 2px solid darken($red, 15%);
+					}
+					&.yellow {
+						background: $yellow;
+						border: 2px solid darken($yellow, 10%);
+					}
+					&.pink {
+						background: $pink;
+						border: 2px solid darken($pink, 10%);
+					}
+					&.blue {
+						background: $blue;
+						border: 2px solid darken($blue, 10%);
+					}
+					&.brown {
+						background: $brown;
+						border: 2px solid darken($brown, 15%);
+					}
+					&.violet {
+						background: $violet;
+						border: 2px solid darken($violet, 10%);
+					}
+					&.peach {
+						background: $peach;
+						border: 2px solid darken($peach, 10%);
+					}
+				}
+			}
+		}
+		.media-body {
+			h4.media-heading {
+				color: $black;
+				font-size: 14px;
+				font-weight: 700;
+				span.date {
+					color: lighten($black, 60%);
+					font-size: 12px;
+					font-weight: 500;
+					padding-left: 5px;
+				}
+			}
+			p {
+				padding: 0 0 0 15px;
+				margin: 15px 0;
+				border-left: 3px solid darken($white, 15%);
+			}
+		}
+		&.disabled {
+			opacity: 0.2;
+			cursor: no-drop;
+		}
+	}
+}
+
+.comments-footer {
+	margin-bottom: 25px;
+	ul {
+		li {
+			float: left;
+			margin-right: 15px;
+			a {
+				color: lighten($black, 40%);
+				span.count {
+					margin-right: 2px;
+				}
+				&.high {
+					color: darken($green, 25%);
+				}
+				&.low {
+					color: darken($red, 25%);
+				}
+				&:hover {
+					color: $black;
+				}
+			}
+		}
+	}
+}
+
+.comments-form {
+	.form-group {
+		margin-bottom: 10px;
+	}
+}
+
+#charCount {
+	color: $blue;
+	font-weight: 700;
+}

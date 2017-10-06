@@ -1,0 +1,109 @@
+Credits ........................................
+........................................
+........................................
+........................................
+........................................
+
+
+JavaScript Libraries ***************************************************
+--------------------
+Bootstrap 
+http://twitter.github.com/bootstrap
+
+jQuery 
+http://www.jquery.com
+
+jQuery-UI 
+http://www.jqueryui.com
+
+
+JavaScript Plugins ***************************************************
+------------------
+
+BootstrapValidator
+http://bootstrapvalidator.com
+
+BaguetteBox
+https://github.com/feimosi/baguetteBox.js
+
+C3 Charts
+http://c3js.org
+
+D3 Charts
+https://d3js.org
+
+DataTables
+http://datatables.net
+
+Flot Charts
+http://flotcharts.org
+
+FullCalendar
+http://fullcalendar.io
+
+Jvector Map
+http://jvectormap.com
+
+jQuery Easing
+http://gsgd.co.uk/sandbox/jquery/easing
+
+Moment js
+http://momentjs.com
+
+Scrollup
+https://github.com/markgoodyear/scrollup
+
+Sparkline
+http://omnipotent.net/jquery.sparkline
+
+WYSIWYG Editor
+http://suyati.github.io/line-control
+
+
+CSS Files ***************************************************
+---------
+
+Bootstrap
+http://getbootstrap.com
+
+BootstrapValidator
+http://bootstrapvalidator.com
+
+BaguetteBox
+https://github.com/feimosi/baguetteBox.js
+
+C3 Charts
+http://c3js.org
+
+DataTables
+http://datatables.net
+
+FullCalendar
+http://fullcalendar.io
+
+WYSIWYG Editor
+http://suyati.github.io/line-control
+
+Datepicker
+http://jqueryui.com
+
+
+Font Files ***************************************************
+----------
+
+Font Awesome 4.5.0
+http://fontawesome.io/4.5.0/icons
+
+Icomoon
+https://icomoon.io
+
+Opensans
+http://google.com/fonts/specimen/Open+Sans
+
+
+
+
+
+
+
+

@@ -1,0 +1,415 @@
+$white: #ffffff;
+$black: #000000;
+
+$body-bg: #35404f;
+$sky-blue: #f5f8fb;
+
+$red: #e84f4c;
+$dark-red: #f35454;
+$yellow: #f6b067;
+$green: #71c586;
+$blue: #3a86c8;
+$dark-blue: #2a303e;
+
+$orange: #f2682a;
+$brown: #ab7967;
+$teal: #47BCC7;
+$pink: #F782AA;
+$violet: #c38fbb;
+$purple: #500776;
+$mustard: #e3b442;
+$peach: #f5907c;
+$light-green: #aed048;
+$light-yellow: #fee074;
+$light-blue: #66c0dc;
+$light-orange: #fa9255;
+
+// Green Shades
+$green-one: #6dc6cd;
+$green-two: #52bf8a;
+$green-three: #638ca5;
+
+$facebook: #3B5998;
+$twitter: #55ACEE;
+$linkedin: #007BB5;
+$gplus: #E02F2F;
+$instagram: #5280a4;
+
+// Open Sans Light
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Light.ttf') format('ttf');
+	font-weight: 300;
+	font-style: normal;
+}
+// Open Sans Regular
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Regular.ttf') format('ttf');
+	font-weight: 400;
+	font-style: normal;
+}
+// Open Sans Bold
+@font-face {
+	font-family: 'Open Sans';
+	src: url('../fonts/open-sans/OpenSans-Bold.ttf') format('ttf');
+	font-weight: 700;
+	font-style: normal;
+}
+
+/****************  Mixins  ****************/
+
+// Gradients
+@mixin linear-gradient($fromColor, $toColor) {
+	background-color: $toColor; /* Fallback Color */
+	background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, $fromColor, $toColor); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image: -moz-linear-gradient(top, $fromColor, $toColor); /* FF3.6 */
+	background-image: -ms-linear-gradient(top, $fromColor, $toColor); /* IE10 */
+	background-image: -o-linear-gradient(top, $fromColor, $toColor); /* Opera 11.10+ */
+	background-image: linear-gradient(top, $fromColor, $toColor);
+}
+@mixin gradient-ver-three-colors($startColor: #00b3ee, $midColor: #7a43b6, $colorStop: 50%, $endColor: #c3325f) {
+	background-color: mix($midColor, $endColor, 80%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), color-stop($colorStop, $midColor), to($endColor));
+	background-image: -webkit-linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-image: -moz-linear-gradient(top, $startColor, $midColor $colorStop, $endColor);
+	background-image: -o-linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-image: linear-gradient($startColor, $midColor $colorStop, $endColor);
+	background-repeat: no-repeat;
+}
+
+// Transition
+@mixin transition($transition-property, $transition-time, $method) {
+	-webkit-transition: $transition-property $transition-time $method;
+	-moz-transition: $transition-property $transition-time $method;
+	-ms-transition: $transition-property $transition-time $method;
+	-o-transition: $transition-property $transition-time $method;
+	transition: $transition-property $transition-time $method;
+}
+
+// Box Sizing
+@mixin box-sizing($string){
+	-webkit-box-sizing: $string;
+	-moz-box-sizing: $string;
+	box-sizing: $string;
+}
+
+// Box Shadow
+@mixin box-shadow($off-y, $off-x, $blur, $color){
+	-moz-box-shadow: $off-y $off-x $blur $color;
+	-webkit-box-shadow: $off-y $off-x $blur $color;
+	box-shadow: $off-y $off-x $blur $color;
+}
+
+// Border Radius
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin border-radius-all-val($radius1, $radius2, $radius3, $radius4) {
+	-webkit-border-radius: $radius1 $radius2 $radius3 $radius4;
+	-moz-border-radius: $radius1 $radius2 $radius3 $radius4;
+	border-radius: $radius1 $radius2 $radius3 $radius4;
+}
+
+@mixin transform($args){
+	-webkit-transform: $args;
+	-moz-transform: $args;
+	-o-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
+
+// Opacity
+@mixin opacity($opacity) {
+	opacity: $opacity / 100;
+	filter: alpha(opacity=$opacity);
+}
+
+body {
+	margin: 0;
+	font: normal 13px 'Open Sans', sans-serif;
+	line-height: 18px;
+	color: lighten($black, 20%);
+	background: $body-bg;
+	&.error {
+		background-image: url('../img/not-found.jpg');
+		background-size: cover;
+	}
+	&.forgot-pwd {
+		background-color: $dark-blue;
+	}
+	&.login {
+		background-color: $dark-blue;
+	}
+	&.lock-screen {
+		background-color: darken($green-one, 10%);
+	}
+}
+
+a {
+	color: lighten($black, 10%);
+	text-decoration: none;
+	&:hover {
+		color: $black;
+		text-decoration: underline;
+	}
+	&:focus {
+		outline: none;
+		text-decoration: none;
+		color: $black;
+	}	
+}
+
+// Login Wrapper
+#login-wrapper {
+	width: 320px;
+	background-color: white;
+	margin: 90px auto 20px auto;
+	@include border-radius(10px);
+	padding: 30px 0 20px 0;
+}
+
+// Login Header
+#login_header {
+	margin: 0 20px;
+	text-align: center;
+	img.logo{
+		max-width: 110px;
+		text-align: center;
+		margin: 0 auto 30px auto;
+	}
+}
+
+// Loggedin User
+.login-user {
+	margin: 0 auto;
+	text-align: center;
+	img {
+		@include border-radius(100px);
+	}
+}
+
+h5 {
+	text-align: center;
+	font-size: 16px;
+	line-height: 21px;
+	margin: 0;
+	font-weight: 500;
+	padding: 20px;
+}
+
+.form-block {
+	position: relative;
+	i {
+		position: absolute;
+		right: 15px;
+		top: 13px;
+		color: lighten($black, 30%);
+		font-size: 16px;
+	}
+}
+
+#inputs {
+	margin: 0 20px;
+	position: relative;
+}
+
+input[type=text], input[type=password], input[type=email] {
+	width: 100%;
+	height: 42px;
+	position: relative;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 10px;
+	padding: 15px;
+	@include box-sizing(border-box);
+	font-size: 13px;
+}
+
+input[type=text], input[type=password], input[type=email] {
+	border: thin solid darken($sky-blue, 15%);
+	color: $black;
+	font-size: 13px;
+}
+
+input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
+	border: thin solid $blue;
+	@include transition(all, .4s, ease);
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+	border: thin solid darken($sky-blue, 25%);
+	border-left: thin solid $red;
+	outline: none;
+}
+
+input[type=submit] {
+	color: $white;
+	font-size: 18px;
+	background-color: $facebook;
+	border: 0;
+	@include border-radius(2px);
+	@include transition(all, .2s, ease);
+	cursor: pointer;
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 10px;
+	padding: 15px;
+	&:hover {
+		background-color: lighten($facebook, 7%);
+		color: $white;
+	}
+	&:focus {
+		outline: none;
+		border: 0;
+	}
+}
+
+#login_footer {
+	margin: 0 20px;
+	p {
+		margin: 0;
+		font-size: 12px;
+	}
+	a {
+		color: $red;
+	}
+}
+
+// Lockscreen Wrapper
+.lockscreen-wrapper {
+	padding: 150px 0 20px 0;
+	text-align: center;
+	color: $white;
+	width: 70%;
+	margin: auto;
+	.avatar {
+		position: relative;
+		margin: auto;
+		width: 90px;
+		img {
+			padding: 3px;
+			border: 3px solid rgba(255, 255, 255, 0.2);
+			@include border-radius(100%);
+			width: 78px;
+		}
+		.lock {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			width: 32px;
+			height: 32px;
+			background: $red;
+			@include border-radius(100%);
+			i {
+				color: $white;
+				line-height: 32px;
+			}
+		}
+	}
+	h3 {
+		margin: 0 0 30px 0;
+	}
+	h5 {
+		margin: 0;
+		padding: 0;
+		color: $black;
+		font-size: 14px;
+	}
+	a {
+		i {
+			vertical-align: middle;
+		}
+	}
+}
+
+// Subscription
+.subscribe-form {
+  margin: 10px auto 10px auto;
+  height: 52px;
+  text-align: center;
+  width: 300px;
+  position: relative;
+  input.subscribe-email {
+    width: 300px;
+    height: 52px;
+    padding: 13px 5px 11px 20px;
+    float: left;
+    font-size: 16px;
+    line-height: 52px;
+    border: 0;
+    color: $black;
+    @include border-radius(30px);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    @include box-sizing(border-box);
+  }
+  .subscribe-btn {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    border: none;
+    height: 48px;
+    width: 70px;
+    text-align: center;
+    color: $white;
+    background-color: $red;
+    @include border-radius-all-val(10px, 30px, 30px, 10px);
+    &:hover, &:focus {
+      background-color: darken($red, 5%);
+      outline: none;
+      cursor: pointer;
+    }
+    i {
+    	font-size: 21px;
+    	vertical-align: middle;
+    	line-height: 48px;
+    }
+  }
+}
+
+// Error Container
+.error-container{
+	text-align: center;
+	width: 300px;
+	height: 300px;
+	margin: 150px auto 20px auto;
+	h1 {
+		font-size: 132px;
+		color: darken($red, 5%);
+		line-height: 132px;
+		margin: 0 0 10px 0;
+		i {
+			font-size: 140px;
+		}
+	}
+	p {
+		font-size: 18px;
+		color: $white;
+		font-weight: 500;
+		margin: 0 0 50px 0;
+		text-align: center;
+		text-shadow: 0 0 3px $black;
+	}
+	.btn {
+		font-size: 16px;
+		@include transition(all, .2s, ease);
+		background: darken($light-yellow, 10%);
+		color: $black;
+		font-weight: 600;
+		@include border-radius(30px);
+		text-align: center;
+		margin: auto;
+		padding: 20px 32px;
+		width: 120px;
+		text-decoration: none;
+		&:hover {
+			background: darken($light-yellow, 20%);
+		}
+	}
+}

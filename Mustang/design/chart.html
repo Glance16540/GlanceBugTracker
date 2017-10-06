@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="description" content="Mustang Admin Panel" />
+		<meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Template, Best Admin UI, Bootstrap Template, Wrap Bootstrap, Bootstrap" />
+		<meta name="author" content="Bootstrap Gallery" />
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<title>Mustang Admin Panel, Mustang Dashboard</title>
+		
+		<!-- Bootstrap CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+		<!-- Main CSS -->
+		<link href="css/main.css" rel="stylesheet" id="themeSwitcher" />
+
+		<!-- Icomoon Icons CSS -->
+		<link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
+
+		<!-- ChartJS CSS -->
+		<link href="css/chart.css" rel="stylesheet" />		
+
+		<!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head> 
+
+	<body>
+
+		<!-- Header starts -->
+		<header class="clearfix">
+			<!-- Logo starts -->
+			<div class="logo">
+				<img src="img/logo.png" alt="Logo" />
+			</div>
+			<!-- Logo ends -->
+
+			<!-- Header actions starts -->
+			<div class="pull-right">
+				<ul id="header-actions" class="clearfix">
+					<li class="list-box dropdown">
+						<a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="info-label">7</span>
+							<i class="icon-calendar2 info-icon text-success"></i>
+						</a>
+						<ul class="dropdown-menu imp-notify">
+							<li>
+								<div class="thumb">
+									<img src="img/user7.png" alt="Admin Dashboard">
+								</div>
+								<div class="details">
+									<strong>Wilson Kewis</strong>
+									<p>The best dashboard design I have ever seen. Good luck with sales.</p>
+									<small class="date">Today at 10:10 pm - 21.12.2016</small>
+								</div>
+							</li>
+							<li>
+								<div class="thumb">
+									<img src="img/user10.png" alt="Admin Dashboard">
+								</div>
+								<div class="details">
+									<strong>Justin Mezzell</strong>
+									<p>To keep your account secure, we need to revalidate your account.</p>
+									<small class="date">3 days ago at 2:30 pm</small>
+								</div>
+							</li>
+							<li>
+								<div class="thumb">
+									<img src="img/user6.png" alt="Admin Dashboard">
+								</div>
+								<div class="details">
+									<strong>Shawn Ankith</strong>
+									<p>Contact you via phone with support for recent purchases and product information.</p>
+									<small class="date">7 days ago at 5:15 pm</small>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="list-box dropdown">
+						<a id="drop10" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="info-label">4</span>
+							<i class="icon-paper-clip info-icon text-warning"></i>
+						</a>
+						<div class="dropdown-menu">
+							<section class="todo">
+								<fieldset class="todo-list">
+									<label class="todo-list-item">
+										<input type="checkbox" class="todo-list-cb">
+										<span class="todo-list-mark"></span>
+										<span class="todo-list-desc">Design Web App</span>
+										<small class="scheduled">Scheduled for 24th Dec, Assigned to Shawn.</small>
+									</label>
+									<label class="todo-list-item">
+										<input type="checkbox" class="todo-list-cb">
+										<span class="todo-list-mark"></span>
+										<span class="todo-list-desc">Send all Documents</span>
+										<small class="scheduled">Scheduled for 24th Dec, Assigned to Leena.</small>
+									</label>
+									<label class="todo-list-item">
+										<input type="checkbox" class="todo-list-cb">
+										<span class="todo-list-mark"></span>
+										<span class="todo-list-desc">Buy new Car</span>
+										<small class="scheduled">Scheduled on 10th Dec, Assigned to Mark.</small>
+									</label>
+									<label class="todo-list-item">
+										<input type="checkbox" class="todo-list-cb" checked>
+										<span class="todo-list-mark"></span>
+										<span class="todo-list-desc">Assign new Task</span>
+										<small class="scheduled">Completed on 5th Dec, Assigned to Robin.</small>
+									</label>
+									<label class="todo-list-item">
+										<input type="checkbox" class="todo-list-cb overdue" checked>
+										<span class="todo-list-mark"></span>
+										<span class="todo-list-desc">Read Turning Points</span>
+										<small class="scheduled">Overdue 12 days, Assigned to Wincy.</small>
+									</label>
+								</fieldset>
+							</section>
+						</div>
+					</li>
+					<li class="list-box user-admin dropdown">
+						<div class="admin-details">
+							<div class="name">Anisha</div>
+							<div class="designation">System Admin</div>
+						</div>
+						<a id="drop4" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-account_circle"></i>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-content">
+								<a href="#"><i class="icon-warning2"></i>Update Password<br><span>Your password will expire in 7 days.</span></a>
+								<a href="profile.html">Edit Profile</a>
+								<a href="forgot-pwd.html">Change Password</a>
+								<a href="profile.html">Settings</a>
+								<a href="login.html">Logout</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- Header actions ends -->
+
+			<!-- Support/Feedback button starts -->
+			<a href="faq.html" class="support">Faq's</a>
+			<!-- Support/Feedback button ends -->
+			
+			<!-- Search starts -->
+			<div class="custom-search">
+				<input type="text" class="search-query" placeholder="Search here ...">
+				<i class="icon-search4"></i>
+			</div>
+			<!-- Search ends -->
+		</header>
+		<!-- Header ends -->
+
+		<!-- Container fluid starts -->
+		<div class="container-fluid">
+
+			<!-- Left sidebar starts -->
+			<div class="left-sidebar">
+
+				<!-- User wrapper starts -->
+				<a href="profile.html" class="user-wrapper clearfix">
+					<div class="user-avatar">
+						<img src="img/user2.png" alt="Mustang User">
+					</div>
+					<div class="profile-status">
+						<p class="welcome">Welcome</p>
+						<p class="name">Anisha Willams</p>
+					</div>
+				</a>
+				<!-- User wrapper ends -->
+
+				<div class="panel-group" id="leftSidebar" role="tablist" aria-multiselectable="true">
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+									Color Themes <span class="label label-danger">7</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+							<div class="panel-body">
+								<ul class="color-theme" id="themeOptions">
+									<li>
+										<a href="#" class="theme-instagram" data-theme="theme-instagram"></a>
+									</li>
+									<li>
+										<a href="#" class="theme-grey" data-theme="theme-grey"></a>
+									</li>
+									<li>
+										<a href="#" class="theme-green" data-theme="theme-green"></a>
+									</li>
+									<li>
+										<a href="#" class="theme-facebook" data-theme="theme-facebook"></a>
+									</li>
+									<li>
+										<a href="#" class="theme-maroon" data-theme="theme-maroon"></a>
+									</li>
+									<li>
+										<a href="#" class="theme-brown" data-theme="theme-brown"></a>
+									</li>
+									<li>
+										<a href="#" class="main" data-theme="main"></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingTwo">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+									Online <span class="label label-warning">35</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+							<div class="panel-body">
+								<ul class="online-users">
+									<li>
+										<a href="#" data-status="online" data-original-title="">
+											<span>Carlos Slim</span>
+											<div class="online"></div>
+										</a>
+									</li>
+									<li>
+										<a href="#" data-status="online" data-original-title="">
+											<span>Elon Musk</span>
+											<div class="online"></div>
+										</a>
+									</li>
+									<li>
+										<a href="#" data-status="online" data-original-title="">
+											<span>Angela Merkel</span>
+											<div class="busy"></div>
+										</a>
+									</li>
+									<li>
+										<a href="#" data-status="online" data-original-title="">
+											<span>Christine</span>
+											<div class="busy"></div>
+										</a>
+									</li>
+									<li>
+										<a href="#" data-status="online" data-original-title="">
+											<span>Ali Khamenei</span>
+											<div class="away"></div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingThree">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+									Team <span class="label label-success">10</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+							<div class="panel-body">
+								<ul class="friends-list clearfix">
+									<li>
+										<img src="img/user1.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user2.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user3.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user4.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user5.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user6.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user7.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user8.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user9.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user10.png" alt="user">
+									</li>
+									<li>
+										<img src="img/user2.png" alt="user">
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingFour">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+									Income <span class="label label-grey">48k</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+							<div class="panel-body">
+								<ul class="contributions">
+									<li>
+										<p class="clearfix">New Dashboard<span>$5681</span></p>
+										<div class="progress progress-md">
+											<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: 89%">
+												<span class="sr-only">89% Complete (success)</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<p class="clearfix">User Interface<span>$2143</span></p>
+										<div class="progress progress-md">
+											<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 55%">
+												<span class="sr-only">55% Complete (success)</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<p class="clearfix">PSD to Html<span>$3740</span></p>
+										<div class="progress progress-md">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="29" aria-valuemin="0" aria-valuemax="100" style="width: 29%">
+												<span class="sr-only">29% Complete (success)</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<p class="clearfix">App Design<span>$8210</span></p>
+										<div class="progress progress-md">
+											<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+												<span class="sr-only">10% Complete (success)</span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingFive">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+									Social <span class="label label-danger">3</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+							<div class="panel-body">
+								<div class="info-stats tw">
+									<div class="icon-type pull-left">
+										<i class="icon-twitter"></i>
+									</div>
+									<div class="sale-num">
+										<h4>872</h4>
+										<p>Tweets</p>
+									</div>
+								</div>
+								<div class="info-stats fb">
+									<div class="icon-type pull-left">
+										<i class="icon-facebook2"></i>
+									</div>
+									<div class="sale-num">
+										<h4>3279</h4>
+										<p>Likes</p>
+									</div>
+								</div>
+								<div class="info-stats red">
+									<div class="icon-type pull-left">
+										<i class="icon-mail2"></i>
+									</div>
+									<div class="sale-num">
+										<h4>126</h4>
+										<p>Shares</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingSix">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+									Tags <span class="label label-violet">15</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+							<div class="panel-body">
+								<div class="tags clearfix">
+									<a href="#">Dashboard</a>
+									<a href="#">Timeline</a>
+									<a href="#">Newsfeed</a>
+									<a href="#">Admin</a>
+									<a href="#">Profile</a>
+									<a href="#">Invoice</a>
+									<a href="#">Graphs</a>
+									<a href="#">Inbox</a>
+									<a href="#">Sass</a>
+									<a href="#">App</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingSeven">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+									Locations <span class="label label-teal">21</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+							<div class="panel-body">
+								<ul class="views">
+									<li>
+										<p class="detail-info"><i class="icon-vinyl blue"></i> Germany</p>
+									</li>
+									<li>
+										<p class="detail-info"><i class="icon-vinyl green"></i> Japan</p>
+									</li>
+									<li>
+										<p class="detail-info"> <i class="icon-vinyl red"></i>United States</p>
+									</li>
+									<li>
+										<p class="detail-info"> <i class="icon-vinyl yellow"></i>India</p>
+									</li>
+									<li>
+										<p class="detail-info"> <i class="icon-vinyl violet"></i>France</p>
+									</li>
+									<li>
+										<p class="detail-info"> <i class="icon-vinyl violet"></i>Canada</p>
+									</li>
+									<li>
+										<p class="detail-info"> <i class="icon-vinyl teal"></i>United Kingdom</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading" role="tab" id="headingEight">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+									Comments <span class="label label-warning">5</span>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+							<div class="panel-body">
+								<ul class="articles">
+									<li>
+										<a href="#">
+											<span class="label-bullet">
+												&nbsp;
+											</span>
+											Henrique
+											<span class="date">12th Jan @1:45am / 8 Comments</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span class="label-bullet">
+												&nbsp;
+											</span>
+											Skateboard Wills
+											<span class="date">11th Jan @11:19am / 15 Comments</span>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="no-border">
+											<span class="label-bullet">
+												&nbsp;
+											</span>
+											Commentsus
+											<span class="date">10th Jan @8:12am / 13 Comments</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Left sidebar ends -->
+
+			<!-- Dashboard wrapper starts -->
+			<div class="dashboard-wrapper">
+
+				<!-- Navbar starts -->
+				<nav class="navbar navbar-default">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href='index.html'><i class="icon-graphic_eq"></i>Dashboard</a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-nfc"></i> Pages <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="calendar.html">Calendar</a>
+									</li>
+									<li>
+										<a href='profile.html'>Profile</a>
+									</li>
+									<li>
+										<a href='messages.html'>Messages</a>
+									</li>
+									<li>
+										<a href='invoice.html'>Invoice</a>
+									</li>
+									<li>
+										<a href="blog.html">Blog</a>
+									</li>
+									<li>
+										<a href="pricing.html">Pricing Plans</a>
+									</li>
+									<li>
+										<a href="gallery.html">Gallery</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-ac_unit"></i>UI Lab <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='components.html'>Components</a>
+									</li>
+									<li>
+										<a href="labels-badges.html">Labels &amp; Badges</a>
+									</li>
+									<li>
+										<a href='buttons.html'>Buttons</a>
+									</li>
+									<li>
+										<a href="modals.html">Modals</a>
+									</li>
+									<li>
+										<a href='spinners.html'>Spinners</a>
+									</li>
+									<li>
+										<a href='notifications.html'>Notifications</a>
+									</li>
+									<li>
+										<a href='progressbars.html'>Progress Bars</a>
+									</li>
+									<li>
+										<a href='icons.html'>Icons</a>
+									</li>
+									<li>
+										<a href='typography.html'>Typography</a>
+									</li>
+									<li>
+										<a href='custom-panels.html'>Panels</a>
+									</li>
+									<li>
+										<a href='custom-grid.html'>Grid</a>
+									</li>
+									<li>
+										<a href='drag-drop.html'>Drag &amp; Drop</a>
+									</li>
+									<li>
+										<a href='default.html'>Default Layout</a>
+									</li>
+									<li>
+										<a href='layout-full.html'>Layout Without Sidebar</a>
+									</li>								
+								</ul>
+							</li>
+							<li class="dropdown active">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-pie_chart_outlined"></i>Charts <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='c3-graphs.html'>C3 Graphs</a>
+									</li>
+									<li>
+										<a href='maps.html'>Maps</a>
+									</li>
+									<li>
+										<a href='flot.html'>Flot Graphs</a>
+									</li>
+									<li>
+										<a href='chart.html'>ChartJS</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="icon-payment"></i>Forms <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='form-inputs.html'>Form Inputs</a>
+									</li>
+									<li>
+										<a href='editor.html'>Editors</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-border_all"></i>Tables <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='tables.html'>Tables</a>
+									</li>
+									<li>
+										<a href="data-tables.html">Data Tables</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-block2"></i>Error <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='login.html'>Login</a>
+									</li>
+									<li>
+										<a href='signup.html'>Sign Up</a>
+									</li>
+									<li>
+										<a href='lock-screen.html'>Lock Screen</a>
+									</li>
+									<li>
+										<a href='forgot-pwd.html'>Forgot Password</a>
+									</li>
+									<li>
+										<a href='error.html'>Page Not Found</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<!-- Navbar ends -->
+
+				<!-- Top bar starts -->
+				<div class="top-bar clearfix">
+					<!-- Container fluid starts -->
+					<div class="container-fluid">
+						<!-- Row starts -->
+						<div class="row gutter">
+							<div class="col-md-8 col-sm-6 col-xs-12">
+								<h3 class="page-title">Chartjs Graphs</h3>
+							</div>
+							<div class="col-md-4 col-sm-6 col-xs-12">
+								<ul class="tasks pull-right clearfix">
+									<li>
+										<a href="#">
+											<div class="task-num">21</div>
+											<p class="task-type">Tasks</p>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="task-num">15</div>
+											<p class="task-type">Completed</p>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="task-num">6</div>
+											<p class="task-type">Pending</p>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- Row ends -->
+					</div>
+					<!-- Container fluid ends -->
+				</div>
+				<!-- Top bar ends -->
+
+				<!-- Main container starts -->
+				<div class="main-container">
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Area Chart</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="barChart" class="chart-height"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Bar Graph</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="areaChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Radar Chart</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="radarChart"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Polar Chart</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="polarChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Pie Chart</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="pieChart"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Doughnut Chart</h4>
+								</div>
+								<div class="panel-body">
+									<canvas id="doughnutChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+				</div>
+				<!-- Main container ends -->
+
+				<!-- Footer starts -->
+				<footer class="footer">
+					Copyright Mustang Admin App <span>2017</span>.
+				</footer>
+				<!-- Footer ends -->
+				
+			</div>
+			<!-- Dashboard wrapper ends -->
+
+		</div>
+		<!-- Container fluid ends -->
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="js/jquery.js"></script>
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/bootstrap.min.js"></script>
+
+		<!-- jquery ScrollUp JS -->
+		<script src="js/scrollup.min.js"></script>
+		
+		<!-- Theme Switcher -->
+		<script src="js/themeSwitcher.js"></script>
+
+		<!-- ChartJS Graphs -->
+		<script src="js/chart-js/chart.min.js"></script>
+		<script src="js/chart-js/custom.js"></script>
+
+		<!-- Common JS -->
+		<script src="js/common.js"></script>
+
+	</body>
+</html>

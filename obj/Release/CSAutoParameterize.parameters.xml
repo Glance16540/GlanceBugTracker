@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=Coderfoundry.cloudapp.net,55555;Initial Catalog=glance-bugtracker;Persist Security Info=True;User ID=glance;Password=Tuckerandhobbes1" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\glanc\\source\\repos\\GlanceBugTracker\\GlanceBugTracker\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

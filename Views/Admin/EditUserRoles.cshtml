@@ -1,0 +1,45 @@
+﻿@model GlanceBugTracker.Models.Helpers.AdminUserViewModel
+
+@{
+    ViewBag.Title = "EditUserRoles";
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<h2>Edit User Roles</h2>
+<hr />
+
+@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post))
+{
+
+    <h4>
+        @Html.DisplayFor(model => model.User.FullName)
+        <input type="submit" value="Assign Roles" class="btn btn-default pull-right" style="margin-top: -7px" />
+    </h4>
+    <hr />
+    @Html.HiddenFor(Model => Model.User.Id)
+    @Html.ListBox("SelectedRoles", Model.Roles, new { @class = "multi-select" })
+
+}
+
+<div style="margin-top:40px;">
+    @Html.ActionLink("Back to Admin Index", "Index")
+</div>
+
+@section Scripts{
+    <script src="~/Content/Assest/MultiSelect.js"></script>
+
+    <script type="text/javascript">
+
+        /* Multi select inputs */
+        $(function () {
+            "use strict";
+            $('.multi-select').multiSelect({
+                selectableHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Available Roles</div>",
+                selectionHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Selected Roles</div>"
+            });
+
+            $(".ms-container").append('<i class="material-icons" style="font-size:50px; text-align:center; margin:80px 0px 0px 20px">swap_horiz</i>');
+        });
+    </script>
+}

@@ -1,0 +1,19 @@
+﻿@model  GlanceBugTracker.Models.Helpers.ProjectUserViewModel
+
+@{ 
+    ViewBag.title = "ProjectUser";
+}
+
+<h2>Assign Users To Project</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.AssignProjectId)
+  
+
+<h3>Project Name : @Model.AssignProject.Title </h3>
+<div>
+           @Html.ListBox("SelectedUsers", Model.Users)
+    </div>
+    <button class="btn btn-default" type="submit">Submit</button>
+}
