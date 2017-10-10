@@ -8,10 +8,11 @@
     <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Template, Best Admin UI, Bootstrap Template, Wrap Bootstrap, Bootstrap" />
     <meta name="author" content="Bootstrap Gallery" />
     <link rel="shortcut icon" href="img/favicon.ico">
-    <title>Mustang Admin Panel, Mustang Dashboard</title>
+    <title>GLance BugTracker</title>
 
     <!-- Bootstrap CSS -->
- 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
     <link href="~/Mustang/design/css/bootstrap.min.css" rel="stylesheet" />
   
     <!-- Main CSS -->
@@ -19,6 +20,7 @@
  
     <!-- Icomoon Icons CSS -->
     <link href="~/Mustang/design/fonts/icomoon/icomoon.css" rel="stylesheet" />
+    <link href="~/Content/Assest/MultiSelect.css" rel="stylesheet" />
    
     <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -30,9 +32,9 @@
     <!-- Header starts -->
     <header class="clearfix">
         <!-- Logo starts -->
-        <div class="logo">
+        @*<div class="logo">
             <img src="img/logo.png" alt="Logo" />
-        </div>
+        </div>*@
         <!-- Logo ends -->
         <!-- Header actions starts -->
         <div class="pull-right">
@@ -280,7 +282,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-border_all"></i>Projects <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                @if (User.IsInRole("Admin , Project Manager"))
+                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                                  
                                     {
                                         <a href="@Url.Action("Index","Projects")">Full Project Index</a>
@@ -304,7 +306,7 @@
                                     <a href="@Url.Action("ChangeName","Manage")">Change Your Name</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ChangePassword","Manage")">Forgot Password</a>
+                                    <a href="@Url.Action("ChangePassword","Manage")">Change Your Password</a>
                                 </li>
                                 @if (User.IsInRole("Admin"))
                                 {
@@ -372,7 +374,7 @@
         <!-- Dashboard wrapper ends -->
     </div>
     <!-- Container fluid ends -->
-   @RenderSection("scripts", required: false)
+ 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="~/Mustang/design/js/jquery.js"></script>
   
@@ -388,7 +390,10 @@
 
     <!-- Common JS -->
     <script src="~/Mustang/design/js/common.js"></script>
-   
+
+
+    
+    @RenderSection("scripts", required: false)
 </body>
 
 

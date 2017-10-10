@@ -85,7 +85,7 @@
    {
        <a href=" @Url.Action("Create","Tickets")"class=" btn btn-success">Create A Ticket</a>
    }
-  <a href="@Url.Action("UserProjects" , "Projects")" class="btn btn-primary">Back To Ticket List</a>
+  <a href="@Url.Action("UserProjects" , "Projects")" class="btn btn-primary">Back My Projects List</a>
 </p>
 
 
@@ -113,25 +113,14 @@
                             
                         </thead>
 
-                        <tfoot>
-                            <tr>
-                                <th>Created</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Priority</th>
-                                <th>Type</th>
-                                <th>Assignment</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
+                   
                         <tbody>
                            
                             
                                 @foreach (var ticket in Model.Tickets)
                                 {
                                        <tr>
-                                        <th>@Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")</th>
+                                        <th>@ticket.Created.UtcDateTime </th>
                                         <th>@ticket.Title</th> 
                                         <th>@ticket.Owneruser.FullName</th>
                                         <th>@ticket.TicketPriority.Name</th>
@@ -149,8 +138,15 @@
                                        @if (User.IsInRole("Admin"))
                                         { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />                               
                                           <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />     
-                                          <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>       <br />
+                                          
                                        }
+                                       @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                       {
+
+                                        <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>   <br />   
+
+                                       }
+
                                         <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a>
                                        </th>
                                             </tr>  

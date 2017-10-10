@@ -5,6 +5,10 @@
 }
 
 <h2>Your Assigned Projects</h2>
+@if (User.IsInRole("Project Manager"))
+{
+    <a href="@Url.Action("Create","Projects")" class="btn btn-success "> Create A Project</a>
+}
 
 <table class="table">
     <tr>

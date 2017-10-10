@@ -30,11 +30,11 @@ namespace GlanceBugTracker.Models.Helpers
             var result = userManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
         }
-        public ICollection<ApplicationUser>UsersInRole(string roleName)
+        public ICollection<ApplicationUser> UsersInRole(string roleName)
         {
             List<ApplicationUser> resultList = new List<ApplicationUser>();
             List<ApplicationUser> List = userManager.Users.ToList();
-            foreach(var user in List )
+            foreach (var user in List)
             {
                 if (IsUserInRole(user.Id, roleName))
                     resultList.Add(user);
@@ -43,9 +43,9 @@ namespace GlanceBugTracker.Models.Helpers
         }
         public ICollection<ApplicationUser> UserNotInRole(string roleName)
         {
-            List<ApplicationUser> resultList =  new List<ApplicationUser>();
+            List<ApplicationUser> resultList = new List<ApplicationUser>();
             List<ApplicationUser> List = userManager.Users.ToList();
-            foreach(var user in List)
+            foreach (var user in List)
             {
                 if (!IsUserInRole(user.Id, roleName))
                     resultList.Add(user);

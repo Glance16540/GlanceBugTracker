@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Details";
 }
+<link href="~/Mustang/design/css/datatables/dataTables.bs.min.css" rel="stylesheet" />
+<link href="~/Mustang/design/css/datatables/autoFill.bs.min.css" rel="stylesheet" />
+<link href="~/Mustang/design/css/datatables/fixedHeader.bs.css" rel="stylesheet" />
+
+
 
 <h2>Details</h2>
 
@@ -15,15 +20,25 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+
+
+
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Updated)
         </dt>
-
+        
         <dd>
-            @Html.DisplayFor(model => model.Updated)
+            @if (Model.Updated != null)
+            {
+                @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+            }
+     
+
+
+
         </dd>
 
         <dt>
@@ -41,14 +56,10 @@
         <dd>
            @Html.Raw(Model.Description)
         </dd>
+       
+       
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AuthorId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AuthorId)
-        </dd>
+      
         <dt>
             Users
         </dt>
@@ -61,6 +72,103 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+   
+ 
+    
+    
+   @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+           {
+     <a href="@Url.Action("Index","Projects")" class="btn btn-default">Back To Admin List</a>
+      <a href="@Url.Action("Edit","Projects" , new {id = Model.Id })" class=" btn btn-danger">Edit Project</a>
+   }
+   @if (User.IsInRole("Submitter"))
+   {
+       <a href=" @Url.Action("Create","Tickets")"class=" btn btn-success">Create A Ticket</a>
+   }
+  <a href="@Url.Action("UserProjects" , "Projects")" class="btn btn-primary">Back My Projects List</a>
 </p>
+
+
+<div class="row gutter">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-light">
+            <div class="panel-heading">
+                <h4>Tickets</h4>
+            </div>
+        
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="responsiveTable" class="table table-striped table-bordered no-margin">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Priority</th>
+                                <th>Type</th>
+                                <th>Assignment</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            
+                        </thead>
+
+                   
+                        <tbody>
+                           
+                            
+                                @foreach (var ticket in Model.Tickets)
+                                {
+                                       <tr>
+                                        <th>@ticket.Created.UtcDateTime </th>
+                                        <th>@ticket.Title</th> 
+                                        <th>@ticket.Owneruser.FullName</th>
+                                        <th>@ticket.TicketPriority.Name</th>
+                                        <th>@ticket.TicketType.Name</th>
+                                        @if (ticket.AssignToUserId != null)
+                                        {
+                                            <th>@ticket.AssignToUser.FullName</th>
+                                        }
+                                        else
+                                        {
+                                            <th></th>
+                                        }
+                                        <th>@ticket.TicketStatus.Name</th>
+                                        <th>
+                                       @if (User.IsInRole("Admin"))
+                                        { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />                               
+                                          <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />     
+                                          
+                                       }
+                                       @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                       {
+
+                                        <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>      
+
+                                       }
+
+                                        <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a>
+                                       </th>
+                                            </tr>  
+                                }
+
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row ends -->
+
+@section Scripts {
+    <!-- Data Tables -->
+    <script src="~/Mustang/design/js/datatables/dataTables.min.js"></script>
+    <script src="~/Mustang/design/js/datatables/dataTables.tableTools.js"></script>
+    <script src="~/Mustang/design/js/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Mustang/design/js/datatables/custom-datatables.js"></script>
+    <script src="~/Mustang/design/js/datatables/fixedHeader.min.js"></script>
+    <script src="~/Mustang/design/js/datatables/autoFill.min.js"></script>
+    <script src="~/Mustang/design/js/datatables/autoFill.bootstrap.min.js"></script>
+}

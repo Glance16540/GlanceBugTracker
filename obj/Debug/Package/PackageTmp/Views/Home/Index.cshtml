@@ -1,4 +1,6 @@
-﻿@{Layout = null;}
+﻿@{Layout = null;
+}
+@model GlanceBugTracker.Models.CodeFirst.Ticket
 @{
     ViewBag.Title = "Home Page";
 }
@@ -33,9 +35,9 @@
     <!-- Header starts -->
     <header class="clearfix">
         <!-- Logo starts -->
-        <div class="logo">
+        @*<div class="logo">
             <img src="img/logo.png" alt="Logo" />
-        </div>
+        </div>*@
         <!-- Logo ends -->
         <!-- Header actions starts -->
         <div class="pull-right">
@@ -141,7 +143,7 @@
         </div>
         <!-- Header actions ends -->
         <!-- Support/Feedback button starts -->
-        <a href="faq.html" class="support">Faq's</a>
+        <a href="#" class="support">Faq's</a>
         <!-- Support/Feedback button ends -->
         <!-- Search starts -->
         <div class="custom-search">
@@ -157,10 +159,10 @@
         <!-- Left sidebar starts -->
         <div class="left-sidebar">
             <!-- User wrapper starts -->
-            <a href="profile.html" class="user-wrapper clearfix">
-                <div class="user-avatar">
+            <a href="#" class="user-wrapper clearfix">
+                @*<div class="user-avatar">
                     <img src="img/user2.png" alt="Mustang User">
-                </div>
+                </div>*@
                 <div class="profile-status">
                     <p class="welcome">Welcome</p>
                     <p class="name">@ViewBag.FullName</p>
@@ -615,25 +617,39 @@
                                     <a href='chart.html'>ChartJS</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="icon-payment"></i>Forms <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href='form-inputs.html'>Form Inputs</a>
-                                </li>
-                                <li>
-                                    <a href='editor.html'>Editors</a>
-                                </li>
-                            </ul>
                         </li>*@
+
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="icon-payment"></i>Tickets <span class="caret"></span>
+                                </a>
+                       
+                                <ul class="dropdown-menu">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Tickets")">Full Ticket Index</a>
+                                        </li>
+                                    }
+                                    @*@if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("AssignDeveloper", "Tickets")">Assign Developer</a>
+                                        </li>
+                                    }*@
+
+                                </ul>
+                            </li>
+                        }
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-border_all"></i>Projects <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    @if (User.IsInRole("Admin"))
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                                     {
                                         <a href="@Url.Action("Index","Projects")">Full Project Index</a>
                                     }
@@ -647,7 +663,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-block2"></i>Account! <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-anchor"></i>Account <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>

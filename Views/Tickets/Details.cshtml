@@ -21,7 +21,7 @@
         </dd>
 
         <dt>
-Project 
+          Project 
         </dt>
 
         <dd>
@@ -73,23 +73,30 @@ Project
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+            
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Updated)
         </dt>
-
+        @if (Model.Updated != null)
+        {
+            <dd>
+                @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+            </dd>
+        }
         <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
 
-        @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
+            @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
             {
-                <p><a href="@ticketattachment.FileUrl">@ticketattachment.Description</a>
-                    Uploader: @ticketattachment.Author.FullName Date: @ticketattachment.Created</p>
+                <p>
+                    <a href="@ticketattachment.FileUrl">@ticketattachment.Description</a> <br />
+                    Uploader: @ticketattachment.Author.FullName
+                    Date: @ticketattachment.Created
+                </p>
             }
-
+        </dd>
         @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
@@ -138,12 +145,12 @@ Project
    <div class="container">
        <div class="row">
            <div class="col-lg-8">
-               @comment.Body
+               <strong>@comment.Body</strong>
            </div>
            </div>
        <div class="col-lg-pull-4">
            @comment.Author.FullName &nbsp; @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
-        1 Comment
+   
 
 
        </div>
@@ -158,8 +165,8 @@ Project
 
     if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
     {
-        @Html.ActionLink("Edit", "EditComment", "Tickets", new { id = comment.Id }, null)
-        @Html.ActionLink("Delete", "DeleteComment", "Tickets", new { id = comment.Id }, null)
+       <a href="@Url.Action("EditComment", "Tickets", new { id = comment.Id })" class="btn btn-primary img-rounded">Edit</a>
+        <a href="@Url.Action("DeleteComment", "Tickets", new { id = comment.Id })" class="btn btn-danger img-rounded">Delete</a>
     }
     <hr />
     <div class="clearfix"></div>
@@ -168,11 +175,12 @@ Project
 
 
 <p>
-    
-    @Html.ActionLink("Back To Your Projects", "UserProjects","Projects")
+    <a href="@Url.Action("UserProjects","Projects")" class="btn btn-default">Your Projects</a>
+
     @if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Full Ticket Index", "Index")
+        <a href="@Url.Action("Index","Tickets")" class="btn btn-default">Full Ticket Index</a>
+        
     }
     
 </p>

@@ -10,6 +10,7 @@ using GlanceBugTracker.Models;
 using GlanceBugTracker.Models.CodeFirst;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using GlanceBugTracker.Models.Helpers;
 
 namespace GlanceBugTracker.Controllers
 {
@@ -34,16 +35,39 @@ namespace GlanceBugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Tickets.Find(id);
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
-            return View(ticket);
+            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                return View(ticket);
+            }
+            
+          
+            var user = db.Users.Find(User.Identity.GetUserId());
+            
+            if (!User.IsInRole("Admin") && user.Id == ticket.AssignToUserId)
+            {
+                return View(ticket);
+            }
+
+            if (!User.IsInRole("Admin") && user.Id == ticket.OwnerUserId)
+            {
+                return View(ticket);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+
+         
+           
         }
 
         // GET: Tickets/AssignDeveloper/
-        [Authorize]
+        [Authorize(Roles =("Admin , Project Manager"))]
         public ActionResult AssignDeveloper(int? id)
         {
             if (id == null)
@@ -55,7 +79,12 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            UserRoleHelper userRoleHelper = new UserRoleHelper();
+            var developers = userRoleHelper.UsersInRole("Developer");
+            var devsOnProj = developers.Where(d => d.Projects.Any(p => p.Id == ticket.ProjectId));
+            ViewBag.AssignToUserId = new SelectList(devsOnProj, "Id", "FullName", ticket.AssignToUserId);
+         
             return View(ticket);
         }
 
@@ -73,7 +102,7 @@ namespace GlanceBugTracker.Controllers
         }
 
         // GET: Tickets/Create
-  
+           [Authorize(Roles ="Submitter")]
         public ActionResult Create()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -82,6 +111,7 @@ namespace GlanceBugTracker.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+
             return View();
         }
 
@@ -89,19 +119,24 @@ namespace GlanceBugTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles ="Submitter , Admin")]
+        [Authorize(Roles ="Submitter")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Users.Any(u => u.Id == user.Id)), "Id", "Title", ticket.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name", ticket.TicketPriorityId);
+            ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+            
+            
             if (ModelState.IsValid)
             {
-              
-               
+                
                 ticket.TicketStatusid = db.TicketStatuses.FirstOrDefault(t => t.Name == "Unassigned").Id;
                 ticket.OwnerUserId = user.Id;
-                ticket.Created = DateTimeOffset.Now;
-                ticket.Updated = DateTimeOffset.Now;
+                ticket.Created = DateTimeOffset.UtcNow;
+                ticket.Updated = DateTimeOffset.UtcNow;
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
@@ -109,15 +144,12 @@ namespace GlanceBugTracker.Controllers
             }
 
 
-            ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Users.Any(u => u.Id == user.Id)), "Id", "Title", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+           
             return View(ticket);
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin , Project Manager , Submitter , Developer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -129,6 +161,7 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
@@ -136,7 +169,28 @@ namespace GlanceBugTracker.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                return View(ticket);
+            }
+
+
+
+            if (!User.IsInRole("Admin") && user.Id == ticket.AssignToUserId)
+            {
+                return View(ticket);
+            }
+
+            if (user.Id == ticket.OwnerUserId)
+            {
+                return View(ticket);
+            }
+            
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         // POST: Tickets/Edit/5
@@ -147,37 +201,41 @@ namespace GlanceBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket)
         {
-            if (ModelState.IsValid)
-            {
-
-                db.Entry(ticket).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+            
+
+            if (ModelState.IsValid)
+            {
+                ticket.Updated = DateTimeOffset.UtcNow;
+                db.Entry(ticket).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = ticket.Id });
+            }
+           
             return View(ticket);
         }
 
         // GET: Tickets/Delete/5
-        [Authorize]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticket);
-        }
+        //[Authorize]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Ticket ticket = db.Tickets.Find(id);
+        //    if (ticket == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticket);
+        //}
 
 
 
@@ -202,6 +260,7 @@ namespace GlanceBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateComment([Bind(Include = "Id,Body,TicketId,AuthorId,Created,Updated")] TicketComment comment, int TicketId)
         {
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             if (ModelState.IsValid)
             {
 
@@ -211,16 +270,18 @@ namespace GlanceBugTracker.Controllers
                 comment.Created = DateTimeOffset.Now;
                 db.TicketComments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = TicketId });
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", comment.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FullName", comment.AuthorId);
             return View(comment);
         }
 
         // GET: Tickets/EditComment/5
+        [Authorize]
         public ActionResult EditComment(int? id)
         {
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             var user = db.Users.Find(User.Identity.GetUserId());
             Ticket ticket = db.Tickets.Find(id);
             TicketComment ticketcomment = db.TicketComments.Find(id);
@@ -256,20 +317,22 @@ namespace GlanceBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditComment([Bind(Include = "Id,TicketId,AuthorId,Body,Created")] TicketComment ticketcomment)
         {
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             var user = db.Users.Find(User.Identity.GetUserId());
+            Ticket ticket = db.Tickets.Find(ticketcomment.TicketId);
            
-            if ((User.IsInRole("Admin") || (User.IsInRole("ProjectManager")) || ticketcomment.AuthorId == user.Id))
+            if ((User.IsInRole("Admin") || (User.IsInRole("ProjectManager") && ticket.OwnerUserId == user.Id) || ticketcomment.AuthorId == user.Id))
             {
                 if (ModelState.IsValid)
                 {
                     ticketcomment.Updated = DateTimeOffset.UtcNow;
                     db.Entry(ticketcomment).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", new { id = ticket.Id });
                 }
                 ViewBag.AuthorId = new SelectList(/*db.ApplicationUsers,*/ "Id", "FirstName", ticketcomment.AuthorId);
                 ViewBag.CommentId = new SelectList(db.TicketComments, "Id", "Title", ticketcomment.Id);
-                return RedirectToAction("Details", new { id = ticketcomment.Id });
+                return RedirectToAction("Details", new { id = ticket.Id });
             }
 
             else
@@ -310,14 +373,14 @@ namespace GlanceBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteComment(int id)
         {
-
+            Ticket ticket = new Ticket();
             TicketComment ticketcomment = db.TicketComments.Find(id);
-          
+            
 
             db.TicketComments.Remove(ticketcomment);
             db.SaveChanges();
             //return RedirectToAction("Index");
-            return RedirectToAction("Details","Tickets", new {id = ticketcomment.TicketId });
+            return RedirectToAction("UserProjects", "Projects");
         }
 
         //POST: Tickets/CreateAttachment
@@ -326,6 +389,7 @@ namespace GlanceBugTracker.Controllers
         public ActionResult CreateAttachment(
             [Bind(Include = "Id,Description,TicketId")] TicketAttachment ticketattachment, HttpPostedFileBase attachFile) //Bind Attribute tells it to add these properties when it sends to view
         {
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             var user = db.Users.Find(User.Identity.GetUserId());
             if (attachFile != null)
             {
@@ -350,7 +414,7 @@ namespace GlanceBugTracker.Controllers
                 db.TicketAttachments.Add(ticketattachment);
                 db.SaveChanges();
             }
-            return RedirectToAction("Details", "Tickets", new { id = ticketattachment.TicketId });
+            return RedirectToAction("Details", "Tickets", new { id = ticketattachment.Ticket.Id });
 
         }
 

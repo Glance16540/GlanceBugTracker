@@ -10,7 +10,7 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Ticket</h4>
         <hr />
@@ -26,29 +26,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                <textarea id="editor" class="form-control" name="Description" rows="10"></textarea>
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
+
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectId, "Project Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
@@ -56,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketTypeId, "TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TicketTypeId, "Ticket Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
@@ -64,36 +51,34 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketPriorityId, "TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TicketPriorityId, "Ticket Priority", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketStatusid, "TicketStatusid", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketStatusid", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TicketStatusid, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @*@foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
+        {
+            <p> <a href="@ticketattachment.FileUrl">@ticketattachment.Description</a>
+                Uploader: @ticketattachment.Author.FullName Date: @ticketattachment.Created</p>
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.OwnerUserId, "OwnerUserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OwnerUserId, "", new { @class = "text-danger" })
+    @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="number" name="TicketId" value="@Model.Id" hidden />
+        <div class="form-group btn-group">
+            <label class="control-label col-md-4">Upload File</label>
+            <div class="col-md-8">
+                <input name="attachFile" type="file" class="form-control" />
+                <input type="text" name="Description" placeholder="File description" required />
+                <button value="submit">Attach</button>
             </div>
         </div>
+    }*@
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignToUserId, "AssignToUserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AssignToUserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AssignToUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

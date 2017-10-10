@@ -10,16 +10,10 @@
     <h4>Ticket</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignToUser.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignToUser.FirstName)
-        </dd>
+       
 
         <dt>
-            @Html.DisplayNameFor(model => model.Owneruser.FirstName)
+          Author
         </dt>
 
         <dd>
@@ -27,7 +21,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Project.Title)
+          Project 
         </dt>
 
         <dd>
@@ -35,7 +29,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+          Priority
         </dt>
 
         <dd>
@@ -43,7 +37,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+          Status
         </dt>
 
         <dd>
@@ -51,7 +45,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
+            Type
         </dt>
 
         <dd>
@@ -79,20 +73,114 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+            
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Updated)
         </dt>
-
+        @if (Model.Updated != null)
+        {
+            <dd>
+                @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+            </dd>
+        }
         <dd>
-            @Html.DisplayFor(model => model.Updated)
+
+            @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
+            {
+                <p>
+                    <a href="@ticketattachment.FileUrl">@ticketattachment.Description</a> <br />
+                    Uploader: @ticketattachment.Author.FullName
+                    Date: @ticketattachment.Created
+                </p>
+            }
         </dd>
+        @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="number" name="TicketId" value="@Model.Id" hidden />
+            <div class="form-group btn-group">
+                <label class="control-label col-md-4">Upload File</label>
+                <div class="col-md-8">
+                    <input name="attachFile" type="file" class="form-control" />
+                    <input type="text" name="Description" placeholder="File description" required />
+                    <button value="submit">Attach</button>
+                </div>
+            </div>
+        }
+
 
     </dl>
 </div>
+@if (User.Identity.IsAuthenticated)
+{
+
+
+ using (Html.BeginForm("CreateComment", "Tickets", new { TicketId = Model.Id, ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+ {
+
+    @Html.AntiForgeryToken();
+    <div class="form-group">
+        <div class="container">
+            <div class="row">
+        <div class="col-lg-12">
+          
+            <textarea style="" id="editor" class="form-control" placeholder="Write A Comment" name="Body" rows="5"></textarea>
+            @*<input name="Body" type="text" style="padding:5px" placeholder="Leave A Comment" value="@ViewBag.Comment" />*@
+            <button class="btn btn-default" type="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ }
+
+
+}
+
+@foreach (var comment in Model.Comments)
+{
+   <div class="container">
+       <div class="row">
+           <div class="col-lg-8">
+               <strong>@comment.Body</strong>
+           </div>
+           </div>
+       <div class="col-lg-pull-4">
+           @comment.Author.FullName &nbsp; @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+   
+
+
+       </div>
+           <div class="row">
+               <div class="col-lg-6">
+                   
+
+               </div>
+           </div>
+       <div class="clearfix"></div>
+          </div>
+
+    if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+    {
+       <a href="@Url.Action("EditComment", "Tickets", new { id = comment.Id })" class="btn btn-primary img-rounded">Edit</a>
+        <a href="@Url.Action("DeleteComment", "Tickets", new { id = comment.Id })" class="btn btn-danger img-rounded">Delete</a>
+    }
+    <hr />
+    <div class="clearfix"></div>
+}
+
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("UserProjects","Projects")" class="btn btn-default">Your Projects</a>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="@Url.Action("Index","Tickets")" class="btn btn-default">Full Ticket Index</a>
+        
+    }
+    
 </p>
