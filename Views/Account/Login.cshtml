@@ -1,63 +1,136 @@
 ﻿@using GlanceBugTracker.Models
-
+@{ Layout = null;}
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
 }
+<link href="~/Mustang/design/css/main.css" rel="stylesheet" />
 
+<link href="~/Mustang/design/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Mustang/design/css/login.css" rel="stylesheet" />
+
+<link href="~/Mustang/design/fonts/icomoon/icomoon.css" rel="stylesheet" />
 <h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
+
+<body class="login" style="margin-bottom:20px">
+    <div id="login-wrapper">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+
+            @Html.AntiForgeryToken()
+
+           
+
+
+            <div id="login_header">
+
+                <img src="~/Content/Assest/UserUploads/Core App Logo.png" class="logo" alt="Admin Dashboard" />
+            </div>
+
+            <h5>Sign in to access to your Mustang admin control panel.</h5>
+            <div id="inputs">
                 
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>
-            }
-        </section>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-block">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-block">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-8 control-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                </div>
+                <input type="submit" value="Log in" class="btn btn-default" />
+            </div>
+
+
+
+
+
+
+
+
+        }
+
+
+        <div style="margin-left:23px">
+            
+            <a href="@Url.Action("Register", "Account")" class=" btn btn-primary btn-rounded">Register Here</a>
+        
+            <a href="@Url.Action("ForgotPassword", "Account")" class="btn btn-info img-circle" style="margin-left:18px">Forgot Password? </a>
+        </div>
+
+
+
+        <!--Developer Demo-->
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form - horizontal form - material", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-block " hidden>
+                <div class="col-xs-12">
+                    @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">*@
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", value = "developer@demo.com" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+                        <div class="form-block" hidden>
+                            <div class="col-xs-12">
+                                <div class="col-xs-12">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", value = "Demopass1!" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group text-center m-t-20">
+                            <div class="col-xs-12">
+                                <button class="btn btn-success btn-lg btn-block text-uppercase " type="submit">Developer Demo</button>
+                            </div>
+                        </div>
+                        <hr />
+                        
+
+
+
+        }
+            &nbsp;
+
+
+       
+        <hr/>
+
+        <div class="form-block">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>
+
+
+
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+
+    
+
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
