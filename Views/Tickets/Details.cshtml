@@ -5,182 +5,239 @@
 }
 
 <h2>Details</h2>
+<div class="panel-body">
+    <div class="tabbable tabs-left clearfix">
+        <ul class="nav nav-tabs">
+            <li class="">
+                <a href="#tabOne" data-toggle="tab" aria-expanded="true" >Details</a>
+            </li>
+            <li class="">
+                <a href="#tabTwo" data-toggle="tab" aria-expanded="false">History</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tabOne">
+                
+                <div>
+                    <h4>Ticket</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
 
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-       
 
-        <dt>
-          Author
-        </dt>
+                        <dt>
+                            Author
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Owneruser.FirstName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Owneruser.FirstName)
+                        </dd>
 
-        <dt>
-          Project 
-        </dt>
+                        <dt>
+                            Project
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.Title)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Project.Title)
+                        </dd>
 
-        <dt>
-          Priority
-        </dt>
+                        <dt>
+                            Priority
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.Name)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.TicketPriority.Name)
+                        </dd>
 
-        <dt>
-          Status
-        </dt>
+                        <dt>
+                            Status
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.Name)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.TicketStatus.Name)
+                        </dd>
 
-        <dt>
-            Type
-        </dt>
+                        <dt>
+                            Type
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.TicketType.Name)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Created)
+                        </dt>
 
-        <dd>
-            @Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
-            
-        </dd>
+                        <dd>
+                            @Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-        @if (Model.Updated != null)
-        {
-            <dd>
-                @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
-            </dd>
-        }
-        <dd>
+                        </dd>
 
-            @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
-            {
-                <p>
-                    <a href="@ticketattachment.FileUrl">@ticketattachment.Description</a> <br />
-                    Uploader: @ticketattachment.Author.FullName
-                    Date: @ticketattachment.Created
-                </p>
-            }
-        </dd>
-        @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <input type="number" name="TicketId" value="@Model.Id" hidden />
-            <div class="form-group btn-group">
-                <label class="control-label col-md-4">Upload File</label>
-                <div class="col-md-8">
-                    <input name="attachFile" type="file" class="form-control" />
-                    <input type="text" name="Description" placeholder="File description" required />
-                    <button value="submit">Attach</button>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Updated)
+                        </dt>
+
+                        @if (Model.Updated != null)
+                        {
+                            <dd>
+                                @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+                            </dd>
+                        }
+                        
+
+                            @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
+                             {
+                                
+                                <p>
+                                    <a href="@ticketattachment.FileUrl" class="btn btn-info" target="_blank">@ticketattachment.Description</a> <br />
+                                    Uploader: @ticketattachment.Author.FullName <br />
+                                    &nbsp;
+                                    Date:@Html.ToUserTime(ticketattachment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+                                </p>
+                                    
+                            }
+                        
+                        
+                        @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="number" name="TicketId" value="@Model.Id" hidden />
+                            <div class="form-group btn-group">
+                                <dt>
+                                    <div >Upload File</div>
+                                </dt>
+
+                                <div class="col-md-8">
+                                    <input name="attachFile" type="file" class="form-control" />
+                                    <input type="text" name="Description" placeholder="File description" required />
+                                    <button value="submit">Attach</button>
+                                </div>
+                            </div>
+                        }
+                        
+
+                    </dl>
                 </div>
+
+                @if (User.Identity.IsAuthenticated)
+            {
+
+
+                using (Html.BeginForm("CreateComment", "Tickets", new { TicketId = Model.Id, ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+
+                        @Html.AntiForgeryToken();
+                        <div class="form-group">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <textarea id="txtEditor" placeholder="Leave A Comment"></textarea>
+                                        <button class="btn btn-info" type="button">Save Changes</button>
+                                        <button class="btn btn-danger" type="button">Cancel</button>
+                                        @*<input name="Body" type="text" style="padding:5px" placeholder="Leave A Comment" value="@ViewBag.Comment" />*@
+                                        <button class="btn btn-default" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+
+                }
+
+                @foreach (var comment in Model.Comments)
+            {
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <strong>@comment.Body</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-pull-4">
+                            @comment.Author.FullName &nbsp; @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <a href="@Url.Action("EditComment", "Tickets", new { id = comment.Id })" class="btn btn-primary img-rounded">Edit</a>
+                        <a href="@Url.Action("DeleteComment", "Tickets", new { id = comment.Id })" class="btn btn-danger img-rounded">Delete</a>
+                    }
+                    <hr />
+                    <div class="clearfix"></div>
+                }
+
+
+
+
             </div>
-        }
+            <div class="tab-pane" id="tabTwo">
+                @foreach(var history in Model.Histories)
+                {
+
+                    @history.Author.FullName; <br />
+                    @history.Created; <br />
+                    @history.Id;<br />
+                    @history.OldValue;<br />
+                    @history.NewValue;<br />
+                    @history.Property;<br />
+                    @history.AuthorId;<br />
 
 
-    </dl>
-</div>
-@if (User.Identity.IsAuthenticated)
-{
 
 
- using (Html.BeginForm("CreateComment", "Tickets", new { TicketId = Model.Id, ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
- {
 
-    @Html.AntiForgeryToken();
-    <div class="form-group">
-        <div class="container">
-            <div class="row">
-        <div class="col-lg-12">
-          
-            <textarea style="" id="editor" class="form-control" placeholder="Write A Comment" name="Body" rows="5"></textarea>
-            @*<input name="Body" type="text" style="padding:5px" placeholder="Leave A Comment" value="@ViewBag.Comment" />*@
-            <button class="btn btn-default" type="submit">Submit</button>
+                }
+
+
+
+
+
+
+
+            </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
- }
+           
+          
 
+            <p>
+                <a href="@Url.Action("UserProjects","Projects")" class="btn btn-default">Your Projects</a>
 
-}
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Index","Tickets")" class="btn btn-default">Full Ticket Index</a>
 
-@foreach (var comment in Model.Comments)
-{
-   <div class="container">
-       <div class="row">
-           <div class="col-lg-8">
-               <strong>@comment.Body</strong>
-           </div>
-           </div>
-       <div class="col-lg-pull-4">
-           @comment.Author.FullName &nbsp; @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
-   
+                }
+
+            </p>
 
 
-       </div>
-           <div class="row">
-               <div class="col-lg-6">
-                   
-
-               </div>
-           </div>
-       <div class="clearfix"></div>
-          </div>
-
-    if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
-    {
-       <a href="@Url.Action("EditComment", "Tickets", new { id = comment.Id })" class="btn btn-primary img-rounded">Edit</a>
-        <a href="@Url.Action("DeleteComment", "Tickets", new { id = comment.Id })" class="btn btn-danger img-rounded">Delete</a>
-    }
-    <hr />
-    <div class="clearfix"></div>
-}
-
-
-
-<p>
-    <a href="@Url.Action("UserProjects","Projects")" class="btn btn-default">Your Projects</a>
-
-    @if (User.IsInRole("Admin"))
-    {
-        <a href="@Url.Action("Index","Tickets")" class="btn btn-default">Full Ticket Index</a>
-        
-    }
-    
-</p>

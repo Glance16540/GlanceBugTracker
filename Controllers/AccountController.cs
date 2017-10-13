@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GlanceBugTracker.Models;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace GlanceBugTracker.Controllers
 {
@@ -405,6 +407,14 @@ namespace GlanceBugTracker.Controllers
         {
             return View();
         }
+
+       
+
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

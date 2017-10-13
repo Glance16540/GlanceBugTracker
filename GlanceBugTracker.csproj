@@ -214,6 +214,7 @@
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Helpers\AdminUserViewModel.cs" />
     <Compile Include="Models\Helpers\CustomHTMLHelpers.cs" />
+    <Compile Include="Models\Helpers\HistoryHelper.cs" />
     <Compile Include="Models\Helpers\ProjectAssignHelper.cs" />
     <Compile Include="Models\Helpers\ProjectUserViewModel.cs" />
     <Compile Include="Models\Helpers\TicketUserViewModel.cs" />

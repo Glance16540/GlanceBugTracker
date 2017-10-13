@@ -51,15 +51,21 @@
                                     <th>@project.Description</th>
                                     <th>@project.Author</th>
                                     <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
-                                    @if (project.Users != null)
-                                    {
-                                        <th>@project.Users</th>
-                                    }
-                                    else
-                                    {
-                                        <th></th>
-                                    }
-                                  
+                                    
+                                    <th>
+                                     @foreach (var user in project.Users)
+                                     {
+                                         if (user.FullName != null)
+                                         {
+                                            @user.FullName <br />
+                                         }
+                                         else
+                                         {
+                                            
+                                         }
+
+                                     }
+                                    </th>
                                     <th>
                                         @if (User.IsInRole("Admin"))
                                         { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
@@ -69,11 +75,11 @@
                                         @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                                         {
 
-                                            <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users To Project</a>   <br />
+                                            <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
 
                                         }
 
-                                        <a href="@Url.Action("Details","Project" , new {id = project.Id })">Details</a>
+                                        <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
                                     </th>
                                 </tr>
                             }
@@ -98,18 +104,4 @@
     <script src="~/Mustang/design/js/datatables/autoFill.min.js"></script>
     <script src="~/Mustang/design/js/datatables/autoFill.bootstrap.min.js"></script>
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
+
 using System.Web.Mvc;
 using GlanceBugTracker.Models;
 using GlanceBugTracker.Models.CodeFirst;
@@ -21,8 +21,8 @@ namespace GlanceBugTracker.Controllers
         [Authorize(Roles =("Admin , Projects Manager"))]
         public ActionResult Index()
         {
+         
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
-
             return View(db.Projects.ToList());
         }
         

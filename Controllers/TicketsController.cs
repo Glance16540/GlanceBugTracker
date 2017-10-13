@@ -11,6 +11,9 @@ using GlanceBugTracker.Models.CodeFirst;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using GlanceBugTracker.Models.Helpers;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace GlanceBugTracker.Controllers
 {
@@ -79,6 +82,12 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
+
+
+
+
+
             var user = db.Users.Find(User.Identity.GetUserId());
             UserRoleHelper userRoleHelper = new UserRoleHelper();
             var developers = userRoleHelper.UsersInRole("Developer");
@@ -92,12 +101,47 @@ namespace GlanceBugTracker.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignDeveloper(string AssignToUserId, int id)
+        public async Task<ActionResult> AssignDeveloper(string AssignToUserId, int id, EmailModel model)
         {
             Ticket ticket = db.Tickets.Find(id);
             ticket.AssignToUserId = AssignToUserId;
             ticket.TicketStatusid = db.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id;
+            var user = db.Users.Find(User.Identity.GetUserId());
+            HistoryHelper helper = new HistoryHelper();
+            Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
+            if (oldTicket.AssignToUserId != ticket.AssignToUserId)
+            {
+                helper.AssignChange(ticket, user.Id);
+            }
+
+
+
             db.SaveChanges();
+
+
+            try
+            {
+                var body = "<p>{0}</p><p>({1})</p>";
+                var from = "BugTrackerServerNOREPLY<noreplybugtracker@gmail.com>";
+                //model.Body = "This is a message from your bugtacker notification system. You have been assigned to a ticket! ";
+                var email = new MailMessage(from, db.Users.Find(ticket.AssignToUserId).Email)
+                {
+                    Subject = "Notification of Ticket Assignment",
+                    Body = string.Format(body, "subject", "This is a message from your bugtacker notification system. You have been assigned to a ticket!  Please do not respond to this message as you will not get a reply back. "),
+                    IsBodyHtml = true
+                };
+                var svc = new PersonalEmail();
+                await svc.SendAsync(email);
+             
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                await Task.FromResult(0);
+            }
+
+            
+
             return RedirectToAction("UserProjects", "Projects");
         }
 
@@ -149,7 +193,7 @@ namespace GlanceBugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles ="Admin , Project Manager , Submitter , Developer")]
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -161,7 +205,7 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-
+            var user = db.Users.Find(User.Identity.GetUserId());
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
@@ -171,7 +215,7 @@ namespace GlanceBugTracker.Controllers
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
 
 
-            var user = db.Users.Find(User.Identity.GetUserId());
+         
 
             if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
             {
@@ -208,12 +252,36 @@ namespace GlanceBugTracker.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            
+            var user = db.Users.Find(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
+             
                 ticket.Updated = DateTimeOffset.UtcNow;
+                HistoryHelper helper = new HistoryHelper();
                 db.Entry(ticket).State = EntityState.Modified;
+                TicketHistory ticketHistory = new TicketHistory();
+                Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
+                if (oldTicket.Title != ticket.Title)
+                {
+                    helper.AssignTicketTitle(ticket, user.Id);
+                }
+                if (oldTicket.Description != ticket.Description)
+                {
+                    helper.AssignTicketDescription(ticket, user.Id);
+                }
+                if(oldTicket.TicketPriorityId != ticket.TicketPriorityId)
+                {
+                    helper.AssignTicketPriority(ticket, user.Id);
+                }
+                if(oldTicket.TicketStatusid != ticket.TicketStatusid)
+                {
+                    helper.AssignTicketStatus(ticket, user.Id);
+                }
+                if(oldTicket.TicketTypeId != ticket.TicketTypeId)
+                {
+                    helper.AssignTickettype(ticket, user.Id);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = ticket.Id });
             }
@@ -269,6 +337,10 @@ namespace GlanceBugTracker.Controllers
                 
                 comment.Created = DateTimeOffset.Now;
                 db.TicketComments.Add(comment);
+                HistoryHelper helper = new HistoryHelper();
+
+
+
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = TicketId });
             }
@@ -414,7 +486,7 @@ namespace GlanceBugTracker.Controllers
                 db.TicketAttachments.Add(ticketattachment);
                 db.SaveChanges();
             }
-            return RedirectToAction("Details", "Tickets", new { id = ticketattachment.Ticket.Id });
+            return RedirectToAction("Details", "Tickets", new { id = ticketattachment.TicketId });
 
         }
 
