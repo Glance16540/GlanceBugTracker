@@ -10,9 +10,10 @@ using System.Web.Mvc;
 
 namespace GlanceBugTracker.Controllers
 {
-    [Authorize]
+
     public class HomeController : Universal
     {
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -34,6 +35,7 @@ namespace GlanceBugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Contact(EmailModel model)
         {
             if (ModelState.IsValid)
@@ -61,6 +63,13 @@ namespace GlanceBugTracker.Controllers
             }
             return View(model);
         }
+
+        public ActionResult Landing()
+        {
+            return View();
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

@@ -227,8 +227,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
+    <Content Include="Content\animate.min.css" />
     <Content Include="Content\Assest\MultiSelect.css" />
     <Content Include="Content\Assest\MultiSelect.js" />
+    <Content Include="Content\Assest\UserUploads\Core App Logo Light edit.png" />
+    <Content Include="Content\Assest\UserUploads\Core App Logo Light.png" />
     <Content Include="Content\Assest\UserUploads\Core App Logo.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -702,6 +706,7 @@
     <Content Include="Views\Tickets\AssignDeveloper.cshtml" />
     <Content Include="Views\Tickets\EditComment.cshtml" />
     <Content Include="Views\Tickets\DeleteComment.cshtml" />
+    <Content Include="Views\Home\Landing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

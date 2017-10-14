@@ -1060,11 +1060,12 @@
 
 
                                         <tbody>
-
-
-                                            @*@foreach (var project in Model.Project)
+                                            @Html.Display(Model.Author)
+                                            @Model.Author;
+                                            @foreach (var project in Model)
                                             {
                                                 <tr>
+                                                    @Model.Author;
                                                     <th>@project.Created.UtcDateTime </th>
                                                     <th>@project.Title</th>
                                                     <th>@project.Description</th>
@@ -1101,9 +1102,9 @@
                                                         <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
                                                     </th>
                                                 </tr>
-                                            }*@
+                                            }
 
-
+                                           
                                         </tbody>
                                     </table>
                                 </div>
