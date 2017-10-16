@@ -3,7 +3,7 @@
 @{ 
     ViewBag.title = "ProjectUser";
 }
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <h2>Assign Users To Project</h2>
 @using (Html.BeginForm())
 {
@@ -13,7 +13,27 @@
 
 <h3>Project Name : @Model.AssignProject.Title </h3>
 <div>
-           @Html.ListBox("SelectedUsers", Model.Users)
+    @Html.ListBox("SelectedUsers", Model.Users, new { @class = "multi-select" })
     </div>
     <button class="btn btn-default" type="submit">Submit</button>
+}
+
+
+
+@section Scripts{
+    <script src="~/Content/Assest/MultiSelect.js"></script>
+
+    <script type="text/javascript">
+
+        /* Multi select inputs */
+        $(function () {
+            "use strict";
+            $('.multi-select').multiSelect({
+                selectableHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Available Roles</div>",
+                selectionHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Selected Roles</div>"
+            });
+
+            $(".ms-container").append('<i class="material-icons" style="font-size:50px; text-align:center; margin:80px 0px 0px 20px">swap_horiz</i>');
+        });
+    </script>
 }

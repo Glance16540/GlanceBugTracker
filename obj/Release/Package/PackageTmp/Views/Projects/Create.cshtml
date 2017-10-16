@@ -4,6 +4,10 @@
     ViewBag.Title = "Create";
 }
 
+<!-- Font Awesome Icons -->
+<link href="fonts/font-awesome.css" rel="stylesheet" />
+<!-- Wysiwyg CSS -->
+<link href="css/wysiwyg-editor/editor.css" rel="stylesheet" />
 <h2>Create</h2>
 
 
@@ -28,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <textarea id="editor" class="form-control" name="Description" rows="10"></textarea>
+                <textarea id="txtEditor"></textarea>
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,7 +52,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+@*<script src="~/Scripts/tinymce/tinymce.min.js"></script>
 <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
 <script src="~/Scripts/tinymce/themes/modern/theme.js"></script>
 <script type="text/javascript">
@@ -58,8 +62,26 @@
             });
         });
 
+</script>*@
+<script src="~/Mustang/design/js/wysiwyg-editor/editor.js"></script>
+<script src="~/Content/Assest/MultiSelect.js"></script>
 
-</script>
+<script type="text/javascript">
+
+        /* Multi select inputs */
+        $(function () {
+            "use strict";
+            $('.multi-select').multiSelect({
+                selectableHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Available Roles</div>",
+                selectionHeader: "<div style='text-align: center; background-color:white;color:black'><strong>Selected Roles</div>"
+            });
+
+            $(".ms-container").append('<i class="material-icons" style="font-size:50px; text-align:center; margin:80px 0px 0px 20px">swap_horiz</i>');
+        });
+
+    </script>
+
+
 
 
 }

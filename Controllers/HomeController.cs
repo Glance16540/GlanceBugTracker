@@ -1,4 +1,6 @@
 ﻿using GlanceBugTracker.Models;
+using GlanceBugTracker.Models.Helpers;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +18,16 @@ namespace GlanceBugTracker.Controllers
         [Authorize]
         public ActionResult Index()
         {
+
+            if (ModelState.IsValid)
+            {
+                var id = User.Identity.GetUserId();
+                ProjectAssignHelper helper = new ProjectAssignHelper();
+                var result = helper.ListUserProjects(id);
+                return View(result);
+            }
+            ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
+
             return View();
         }
 

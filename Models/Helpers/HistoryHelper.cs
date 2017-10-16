@@ -16,8 +16,8 @@ namespace GlanceBugTracker.Models.Helpers
         {
             TicketHistory ticketHistory = new TicketHistory();
             Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
-            ticketHistory.OldValue = oldTicket.AssignToUserId;
-            ticketHistory.NewValue = ticket.AssignToUserId;
+            ticketHistory.OldValue = oldTicket.AssignToUser.FullName;
+            ticketHistory.NewValue = db.Users.Find(ticket.AssignToUserId).FullName;
             ticketHistory.TicketId = ticket.Id;
             ticketHistory.Property = "AssignToUserId";
             ticketHistory.Created = DateTimeOffset.UtcNow;

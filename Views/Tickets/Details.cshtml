@@ -101,18 +101,7 @@
                         }
                         
 
-                            @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
-                             {
-                                
-                                <p>
-                                    <a href="@ticketattachment.FileUrl" class="btn btn-info" target="_blank">@ticketattachment.Description</a> <br />
-                                    Uploader: @ticketattachment.Author.FullName <br />
-                                    &nbsp;
-                                    Date:@Html.ToUserTime(ticketattachment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
-                                </p>
-                                    
-                            }
-                        
+                           
                         
                         @using (Html.BeginForm("CreateAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
                         {
@@ -130,7 +119,23 @@
                                 </div>
                             </div>
                         }
-                        
+
+                        @foreach (var ticketattachment in Model.Attachments.OrderByDescending(c => c.Id))
+                        {
+                            
+                            <p >
+                              
+                                <a href="@ticketattachment.FileUrl" class="btn btn-info" target="_blank">@ticketattachment.Description</a> <br />
+                                Uploader: @ticketattachment.Author.FullName <br />
+                                &nbsp;
+                                Date:@Html.ToUserTime(ticketattachment.Created, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
+                                
+                            </p>
+                           
+                        }
+
+
+
 
                     </dl>
                 </div>
@@ -148,7 +153,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
 
-                                        <textarea id="txtEditor" placeholder="Leave A Comment"></textarea>
+                                        <textarea id="txtEditor" placeholder="Leave A Comment"style="width: 1039px; height: 160px;"></textarea>
                                         <button class="btn btn-info" type="button">Save Changes</button>
                                         <button class="btn btn-danger" type="button">Cancel</button>
                                         @*<input name="Body" type="text" style="padding:5px" placeholder="Leave A Comment" value="@ViewBag.Comment" />*@
@@ -158,7 +163,7 @@
                             </div>
                         </div>
 
-                    }
+                }
 
 
                 }
@@ -202,12 +207,22 @@
                 {
 
                     @history.Author.FullName; <br />
+                    @history.Property;<br />
                     @history.Created; <br />
                     @history.Id;<br />
-                    @history.OldValue;<br />
+                    if (history.OldValue == null)
+                    {
+
+                    }
+                    else
+                    {
+                        @history.OldValue;<br />
+                    }
+
                     @history.NewValue;<br />
-                    @history.Property;<br />
-                    @history.AuthorId;<br />
+                    <br />
+                    
+                  
 
 
 
