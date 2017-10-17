@@ -203,23 +203,17 @@
 
             </div>
             <div class="tab-pane" id="tabTwo">
-                @foreach(var history in Model.Histories)
+                @foreach (var history in Model.Histories)
                 {
+                    <p style="border:double;padding:20px;">
+                         <b>@history.Author.FullName</b> has changed the <b>@history.Property</b> from "<b style="color:darkred">@history.OldValue</b>" to
+                        "<b style="color:blue">@history.NewValue</b>"
+                    </p>
 
-                    @history.Author.FullName; <br />
-                    @history.Property;<br />
-                    @history.Created; <br />
-                    @history.Id;<br />
-                    if (history.OldValue == null)
-                    {
+                    <p class="pull-right">@history.Created.ToString("d")</p>
 
-                    }
-                    else
-                    {
-                        @history.OldValue;<br />
-                    }
-
-                    @history.NewValue;<br />
+                   
+                   
                     <br />
                     
                   

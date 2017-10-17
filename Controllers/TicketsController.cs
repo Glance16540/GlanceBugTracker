@@ -243,7 +243,7 @@ namespace GlanceBugTracker.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket, EmailModel model)
         {
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
@@ -281,8 +281,35 @@ namespace GlanceBugTracker.Controllers
                 if(oldTicket.TicketTypeId != ticket.TicketTypeId)
                 {
                     helper.AssignTickettype(ticket, user.Id);
+
                 }
+                
                 db.SaveChanges();
+
+                try
+                {
+                    var body = "<p>{0}</p><p>({1})</p>";
+                    var from = "BugTrackerServerNOREPLY<noreplybugtracker@gmail.com>";
+                    //model.Body = "This is a message from your bugtacker notification system. You have been assigned to a ticket! ";
+                    var email = new MailMessage(from, db.Users.Find(ticket.AssignToUserId).Email)
+                    {
+                        Subject = "Notification of Ticket Assignment",
+                        Body = string.Format(body, "subject", "This is a message from your bugtacker notification system. You have been assigned to a ticket!  Please do not respond to this message as you will not get a reply back. "),
+                        IsBodyHtml = true
+                    };
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    await Task.FromResult(0);
+                }
+
+
+
+
                 return RedirectToAction("Details", new { id = ticket.Id });
             }
            

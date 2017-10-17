@@ -2,8 +2,8 @@
 var renderer, scene, windowHeight, windowWidth, aspectRatio, fieldOfView, near, far, camera, cube;
 
 var Animation = {
-    duration: 1.5,
-    delay: .5,
+    duration: 6,
+    delay: .5
     colors: {
         cube: 0xE0E0E0,
         plateform: 0x9E9E9E,
