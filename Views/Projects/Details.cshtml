@@ -119,37 +119,49 @@
                             
                                 @foreach (var ticket in Model.Tickets)
                                 {
-                                       <tr>
-                                        <th>@ticket.Created.UtcDateTime </th>
-                                        <th>@ticket.Title</th> 
-                                        <th>@ticket.Owneruser.FullName</th>
-                                        <th>@ticket.TicketPriority.Name</th>
-                                        <th>@ticket.TicketType.Name</th>
-                                        @if (ticket.AssignToUserId != null)
-                                        {
-                                            <th>@ticket.AssignToUser.FullName</th>
-                                        }
-                                        else
-                                        {
-                                            <th></th>
-                                        }
-                                        <th>@ticket.TicketStatus.Name</th>
-                                        <th>
-                                       @if (User.IsInRole("Admin"))
-                                        { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />                               
-                                          <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />     
-                                          
-                                       }
-                                       @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                       {
+                                    if (ticket.Archive == true)
+                                    {
 
-                                        <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>   <br />   
+                                    }
+                                    else
+                                    {
 
-                                       }
+                                        <tr>
+                                            <th>@ticket.Created.UtcDateTime </th>
+                                            <th>@ticket.Title</th>
+                                            <th>@ticket.Owneruser.FullName</th>
+                                            <th>@ticket.TicketPriority.Name</th>
+                                            <th>@ticket.TicketType.Name</th>
+                                            @if (ticket.AssignToUserId != null)
+                                            {
+                                                <th>@ticket.AssignToUser.FullName</th>
+                                            }
+                                            else
+                                            {
+                                                <th></th>
+                                            }
+                                            <th>@ticket.TicketStatus.Name</th>
+                                            <th>
+                                                @if (User.IsInRole("Admin"))
+                                                { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />
+                                                <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />
 
-                                        <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a>
-                                       </th>
-                                            </tr>  
+                                                }
+                                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                {
+
+                                                    <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>   <br />
+
+                                                }
+
+                                                <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a>
+                                            </th>
+                                        </tr>
+                                        
+
+
+                                    }
+
                                 }
 
                             

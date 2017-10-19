@@ -19,6 +19,13 @@ namespace GlanceBugTracker.Controllers
 {
     public class TicketsController : Universal
     {
+        // GET: Tickets
+        [Authorize(Roles = "Admin")]
+        public ActionResult Archive()
+        {
+            var tickets = db.Tickets.Include(t => t.AssignToUser).Include(t => t.Owneruser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            return View(tickets.ToList());
+        }
 
 
         // GET: Tickets
@@ -82,12 +89,7 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-
-
-
-
-
-
+            
             var user = db.Users.Find(User.Identity.GetUserId());
             UserRoleHelper userRoleHelper = new UserRoleHelper();
             var developers = userRoleHelper.UsersInRole("Developer");
@@ -147,9 +149,10 @@ namespace GlanceBugTracker.Controllers
 
         // GET: Tickets/Create
            [Authorize(Roles ="Submitter")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            ViewBag.Project = id;
 
             ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Users.Any(u => u.Id == user.Id)), "Id", "Title");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name");
@@ -179,6 +182,7 @@ namespace GlanceBugTracker.Controllers
                 
                 ticket.TicketStatusid = db.TicketStatuses.FirstOrDefault(t => t.Name == "Unassigned").Id;
                 ticket.OwnerUserId = user.Id;
+                ticket.Archive = false;
                 ticket.Created = DateTimeOffset.UtcNow;
                 ticket.Updated = DateTimeOffset.UtcNow;
 
@@ -205,6 +209,7 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            
             var user = db.Users.Find(User.Identity.GetUserId());
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
@@ -214,15 +219,15 @@ namespace GlanceBugTracker.Controllers
             ViewBag.TicketStatusid = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusid);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
 
-
-         
+            if(ticket.TicketStatusid == 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
+            }
 
             if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
             {
                 return View(ticket);
             }
-
-
 
             if (!User.IsInRole("Admin") && user.Id == ticket.AssignToUserId)
             {
@@ -243,7 +248,7 @@ namespace GlanceBugTracker.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket, EmailModel model)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusid,OwnerUserId,AssignToUserId")] Ticket ticket)
         {
             ViewBag.UserTimeZone = db.Users.Find(User.Identity.GetUserId()).TimeZone;
             ViewBag.AssignToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignToUserId);
@@ -256,10 +261,10 @@ namespace GlanceBugTracker.Controllers
 
             if (ModelState.IsValid)
             {
-             
+               
                 ticket.Updated = DateTimeOffset.UtcNow;
                 HistoryHelper helper = new HistoryHelper();
-                db.Entry(ticket).State = EntityState.Modified;
+                
                 TicketHistory ticketHistory = new TicketHistory();
                 Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
                 if (oldTicket.Title != ticket.Title)
@@ -283,29 +288,18 @@ namespace GlanceBugTracker.Controllers
                     helper.AssignTickettype(ticket, user.Id);
 
                 }
-                
+
+                if (ticket.TicketStatusid == 1)
+                {
+                    ticket.Archive = true;
+                }
+                 
+               
+
+                db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
-                try
-                {
-                    var body = "<p>{0}</p><p>({1})</p>";
-                    var from = "BugTrackerServerNOREPLY<noreplybugtracker@gmail.com>";
-                    //model.Body = "This is a message from your bugtacker notification system. You have been assigned to a ticket! ";
-                    var email = new MailMessage(from, db.Users.Find(ticket.AssignToUserId).Email)
-                    {
-                        Subject = "Notification of Ticket Assignment",
-                        Body = string.Format(body, "subject", "This is a message from your bugtacker notification system. You have been assigned to a ticket!  Please do not respond to this message as you will not get a reply back. "),
-                        IsBodyHtml = true
-                    };
-                    var svc = new PersonalEmail();
-                    await svc.SendAsync(email);
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    await Task.FromResult(0);
-                }
+                
 
 
 
@@ -338,17 +332,17 @@ namespace GlanceBugTracker.Controllers
 
 
 
-        // POST: Tickets/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Ticket ticket = db.Tickets.Find(id);
-            db.Tickets.Remove(ticket);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Tickets/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Ticket ticket = db.Tickets.Find(id);
+        //    db.Tickets.Remove(ticket);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
         //POST: Create Comment
         [Authorize]
         [HttpPost]
@@ -517,9 +511,7 @@ namespace GlanceBugTracker.Controllers
 
         }
 
-
-
-
+        
 
 
         protected override void Dispose(bool disposing)

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
+<link href="~/Mustang/design/fonts/icomoon/icomoon.css" rel="stylesheet" />
 <link href="~/Mustang/design/css/datatables/dataTables.bs.min.css" rel="stylesheet" />
 <link href="~/Mustang/design/css/datatables/autoFill.bs.min.css" rel="stylesheet" />
 <link href="~/Mustang/design/css/datatables/fixedHeader.bs.css" rel="stylesheet" />
@@ -31,6 +32,7 @@
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Author</th>
+                                <th>Archived</th>
                                 <th>Tickets</th>
                                 <th>Assigned To Project</th>
                                 <th>Actions</th>
@@ -50,6 +52,7 @@
                                     <th>@project.Title</th>
                                     <th>@project.Description</th>
                                     <th>@project.Author</th>
+                                    <th>@project.Archive</th>
                                     <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
                                     
                                     <th>
@@ -67,18 +70,75 @@
                                      }
                                     </th>
                                     <th>
-                                        @if (User.IsInRole("Admin"))
-                                        { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
-                                        <a href="@Url.Action("Delete","Projects" , new {id = project.Id })">Delete</a>    <br />
+                                        <a href="@Url.Action("Create","Tickets" , new {id = project.Id })">Create Ticket</a> <br />
+                                        @if (User.IsInRole("Admin") && project.Archive == false)
+                                        { <a href="@Url.Action("Edit", "Projects", new { id = project.Id })">Edit</a> <br />
+                                        <a href="@Url.Action("Delete", "Projects", new { id = project.Id })">Delete</a>    <br />
+
+
 
                                         }
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                        else
                                         {
 
-                                            <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
+                                        }
+
+                                        @if (User.IsInRole("Admin")|| User.IsInRole("Admin"))
+                                        {
+
+
+                                            if (project.Archive == true)
+                                            {
+                                                using (Html.BeginForm("Unarchive", "Projects", new { id = project.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                {
+
+                                                    @Html.AntiForgeryToken();
+
+                                                    <span class="icon-lock-open"><input style="border:none;color:darkblue;background-color:white;margin-right:10px;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" type="submit" value="Unarchive" /></span>
+
+
+
+                                                }
+
+
+
+                                            }
+                                            else
+                                            {
+
+
+
+                                            }
+
+                                            if (project.Archive == false)
+                                            {
+                                                using (Html.BeginForm("Archive", "Projects", new { id = project.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                {
+
+                                                    @Html.AntiForgeryToken();
+
+                                                    <span class="icon-lock2"><input style="border:none;color:red;background-color:white;margin-right:10px;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" type="submit" value="Archive" /></span>
+
+
+
+
+                                                }
+                                                <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a><br />
+                                            }
+                                            else
+                                            {
+
+
+
+                                            }
+
 
                                         }
 
+
+                                       
+
+                                       
                                         <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
                                     </th>
                                 </tr>

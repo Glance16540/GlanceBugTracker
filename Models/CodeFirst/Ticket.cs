@@ -25,6 +25,7 @@ namespace GlanceBugTracker.Models.CodeFirst
         public int TicketStatusid { get; set; }
         public string OwnerUserId { get; set; }
         public string AssignToUserId { get; set; }
+        public bool Archive { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual TicketType TicketType { get; set; }

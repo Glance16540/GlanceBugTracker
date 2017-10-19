@@ -1,9 +1,10 @@
 ﻿@{Layout = null;
 }
 @using Microsoft.AspNet.Identity;
+
 @model IEnumerable<GlanceBugTracker.Models.CodeFirst.Project>
 @{
-    
+    var tickets = Model.SelectMany(p => p.Tickets).ToList();
     var user = User.Identity.GetUserId();
 }
   
@@ -135,7 +136,7 @@
                         @*<a id="drop4" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-account_circle"></i>
                             </a>*@
-                        <ul class="dropdown-menu">
+                        @*<ul class="dropdown-menu">
                             <li class="dropdown-content">
                                 <a href="#"><i class="icon-warning2"></i>Update Password<br><span>Your password will expire in 7 days.</span></a>
                                 <a href="profile.html">Edit Profile</a>
@@ -145,7 +146,7 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
+                </ul>*@
             </div>
             <!-- Header actions ends -->
             <!-- Support/Feedback button starts -->
@@ -175,43 +176,60 @@
                 </a>
                 <!-- User wrapper ends -->
                 <div class="panel-group" id="leftSidebar" role="tablist" aria-multiselectable="true">
-                    <div class="panel">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    Color Themes <span class="label label-danger">7</span>
-                                </a>
-                            </h4>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                    }
+                    else
+                    {
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        Color Themes <span class="label label-danger">7</span>
+                                    </a>
+                                </h4>
+                            </div>
+
                         </div>
-                        @*<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <ul class="color-theme" id="themeOptions">
-                                        <li>
-                                            <a href="#" class="theme-instagram" data-theme="theme-instagram"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="theme-violet" data-theme="theme-violet"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="theme-green" data-theme="theme-green"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="theme-facebook" data-theme="theme-facebook"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="theme-maroon" data-theme="theme-maroon"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="theme-brown" data-theme="theme-brown"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="main" data-theme="main"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>*@
-                    </div>
-                    <div class="panel">
+
+
+
+                    }
+
+
+
+                            @*<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <ul class="color-theme" id="themeOptions">
+                                            <li>
+                                                <a href="#" class="theme-instagram" data-theme="theme-instagram"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="theme-violet" data-theme="theme-violet"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="theme-green" data-theme="theme-green"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="theme-facebook" data-theme="theme-facebook"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="theme-maroon" data-theme="theme-maroon"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="theme-brown" data-theme="theme-brown"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="main" data-theme="main"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>*@
+                
+                    @*<div class="panel">
                         <div class="panel-heading" role="tab" id="headingTwo">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -469,12 +487,12 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="panel">
                         <div class="panel-heading" role="tab" id="headingEight">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#leftSidebar" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                                    Comments <span class="label label-warning">5</span>
+                                    Your Latest Comments <span class="label label-warning">5</span>
                                 </a>
                             </h4>
                         </div>
@@ -711,13 +729,13 @@
                                 <ul class="tasks pull-right clearfix">
                                     <li>
                                         <a href="#">
-                                            <div class="task-num">21</div>
-                                            <p class="task-type">Tasks</p>
+                                            <div class="task-num">@Model.Where(t => t.Id == t.Id).Count()</div>
+                                            <p class="task-type">Your Assigned Projects</p>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#">
-                                            <div class="task-num">15</div>
+                                            <div class="task-num"></div>
                                             <p class="task-type">Completed</p>
                                         </a>
                                     </li>
@@ -738,66 +756,66 @@
                 <!-- Main container starts -->
                 <div class="main-container">
                     <!-- Row starts -->
-                    <div class="row gutter">
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="mini-widget">
-                                <div class="mini-widget-heading clearfix">
-                                    <div class="pull-left">Visitors</div>
-                                    <div class="pull-right"><i class="fa fa-angle-up"></i> 12.2<sup>%</sup></div>
-                                </div>
-                                <div class="mini-widget-body clearfix">
-                                    <div class="pull-left">
-                                        <i class="icon-head"></i>
-                                    </div>
-                                    <div class="pull-right number">8757</div>
-                                </div>
-                            </div>
-                            <div class="mini-widget">
-                                <div class="mini-widget-heading clearfix">
-                                    <div class="pull-left">Notifications</div>
-                                    <div class="pull-right"><i class="fa fa-angle-up"></i> 18.3<sup>%</sup></div>
-                                </div>
-                                <div class="mini-widget-body clearfix">
-                                    <div class="pull-left">
-                                        <i class="icon-bell3"></i>
-                                    </div>
-                                    <div class="pull-right number">3780</div>
-                                </div>
-                            </div>
+                    @*<div class="row gutter">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="mini-widget">
+                        <div class="mini-widget-heading clearfix">
+                            <div class="pull-left">Visitors</div>
+                            <div class="pull-right"><i class="fa fa-angle-up"></i> 12.2<sup>%</sup></div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="mini-widget">
-                                <div class="mini-widget-heading clearfix">
-                                    <div class="pull-left">Downloads</div>
-                                    <div class="pull-right"><i class="fa fa-angle-down"></i> 21.9<sup>%</sup></div>
-                                </div>
-                                <div class="mini-widget-body clearfix">
-                                    <div class="pull-left">
-                                        <i class="icon-inbox3"></i>
-                                    </div>
-                                    <div class="pull-right number">12658</div>
-                                </div>
+                        <div class="mini-widget-body clearfix">
+                            <div class="pull-left">
+                                <i class="icon-head"></i>
                             </div>
-                            <div class="mini-widget mini-widget-grey">
-                                <div class="mini-widget-heading clearfix">
-                                    <div class="pull-left">Images</div>
-                                    <div class="pull-right"><i class="fa fa-angle-up"></i> 67.1<sup>%</sup></div>
-                                </div>
-                                <div class="mini-widget-body clearfix">
-                                    <div class="pull-left">
-                                        <i class="icon-image4"></i>
-                                    </div>
-                                    <div class="pull-right number">1135</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <a href="#" class="block-240 primary-bg">
-                                <div id="us-map" class="chart-height6"></div>
-                                <h5 class="text-white no-margin">Top sales - California</h5>
-                            </a>
+                            <div class="pull-right number">8757</div>
                         </div>
                     </div>
+                    <div class="mini-widget">
+                        <div class="mini-widget-heading clearfix">
+                            <div class="pull-left">Notifications</div>
+                            <div class="pull-right"><i class="fa fa-angle-up"></i> 18.3<sup>%</sup></div>
+                        </div>
+                        <div class="mini-widget-body clearfix">
+                            <div class="pull-left">
+                                <i class="icon-bell3"></i>
+                            </div>
+                            <div class="pull-right number">3780</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="mini-widget">
+                        <div class="mini-widget-heading clearfix">
+                            <div class="pull-left">Downloads</div>
+                            <div class="pull-right"><i class="fa fa-angle-down"></i> 21.9<sup>%</sup></div>
+                        </div>
+                        <div class="mini-widget-body clearfix">
+                            <div class="pull-left">
+                                <i class="icon-inbox3"></i>
+                            </div>
+                            <div class="pull-right number">12658</div>
+                        </div>
+                    </div>
+                    <div class="mini-widget mini-widget-grey">
+                        <div class="mini-widget-heading clearfix">
+                            <div class="pull-left">Images</div>
+                            <div class="pull-right"><i class="fa fa-angle-up"></i> 67.1<sup>%</sup></div>
+                        </div>
+                        <div class="mini-widget-body clearfix">
+                            <div class="pull-left">
+                                <i class="icon-image4"></i>
+                            </div>
+                            <div class="pull-right number">1135</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <a href="#" class="block-240 primary-bg">
+                        <div id="us-map" class="chart-height6"></div>
+                        <h5 class="text-white no-margin">Top sales - California</h5>
+                    </a>
+                </div>
+            </div>*@
                     <!-- Row ends -->
                     <!-- Row starts -->
                     @*<div class="row gutter">
@@ -1038,97 +1056,211 @@
                     </div>
                 </div>
             </div>*@
+                    <!-- Row starts -->
+                    <div class="row gutter">
+                        <div class="col-lg-12">
+                            <div class="panel panel-light">
+                                <div class="panel-heading">
+                                    <h4>Line Chart</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="line-chart" class="chart-height2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
 
 
                     <div class="row gutter">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="panel panel-light">
                                 <div class="panel-heading">
-                                    <h4>Projects</h4>
+                                    <h4>Tabs</h4>
                                 </div>
-
                                 <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table id="responsiveTable" class="table table-striped table-bordered no-margin">
-                                            <thead>
-                                                <tr>
-                                                    <th>Created</th>
-                                                    <th>Title</th>
-                                                    <th>Description</th>
-                                                    <th>Author</th>
-                                                    <th>Tickets</th>
-                                                    <th>Assigned To Project</th>
-                                                    <th>Actions</th>
+                                    <div class="tabbable tabs-left clearfix">
+                                        <ul class="nav nav-tabs">
+                                            <li class="">
+                                                <a href="#tabOne" data-toggle="tab" aria-expanded="true">Projects</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#tabTwo" data-toggle="tab" aria-expanded="false">Tickets</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tabOne">
 
-                                                </tr>
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table id="responsiveTable" class="table table-striped table-bordered no-margin">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Created</th>
+                                                                    <th>Title</th>
+                                                                    <th>Description</th>
+                                                                    <th>Author</th>
+                                                                    <th>Tickets</th>
+                                                                    <th>Assigned To Project</th>
+                                                                    <th>Actions</th>
 
-                                            </thead>
+                                                                </tr>
+
+                                                            </thead>
 
 
-                                            <tbody>
+                                                            <tbody>
 
-                                                @foreach (var project in Model)
-                                                {
-                                                    <tr>
-
-                                                        <th>@project.Created.UtcDateTime </th>
-                                                        <th>@project.Title</th>
-                                                        <th>@project.Description</th>
-                                                        <th>@project.Author</th>
-                                                        <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
-
-                                                        <th>
-                                                            @foreach (var person in project.Users)
-                                                            {
-                                                                if (person.FullName != null)
+                                                                @foreach (var project in Model)
                                                                 {
-                                                                    @person.FullName <br />
+                                                                    <tr>
+                                                                        <th>@project.Created.UtcDateTime </th>
+                                                                        <th>@project.Title</th>
+                                                                        <th>@project.Description</th>
+                                                                        <th>@project.Author</th>
+                                                                        <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
+
+                                                                        <th>
+                                                                            @foreach (var person in project.Users)
+                                                                            {
+                                                                                if (person.FullName != null)
+                                                                                {
+                                                                                    @person.FullName <br />
+                                                                                }
+                                                                                else
+                                                                                {
+
+                                                                                }
+
+                                                                            }
+                                                                        </th>
+                                                                        <th>
+                                                                            @if (User.IsInRole("Admin"))
+                                                                            { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
+                                                                            <a href="@Url.Action("Delete","Projects" , new {id = project.Id })">Delete</a>    <br />
+
+                                                                            }
+                                                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                                            {
+
+                                                                                <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
+
+                                                                            }
+
+                                                                            <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
+                                                                        </th>
+                                                                    </tr>
                                                                 }
-                                                                else
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane" id="tabTwo">
+
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table id="responsiveTable" class="table table-striped table-bordered no-margin">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Created</th>
+                                                                    <th>Title</th>
+                                                                    <th>Description</th>
+                                                                    <th>Author</th>
+                                                                    <th>Assigned Developer</th>
+                                                                    <th>Comments</th>
+                                                                    <th>Status</th>
+                                                                    <th>Actions</th>
+
+                                                                </tr>
+
+                                                            </thead>
+
+
+                                                            <tbody>
+
+                                                                @foreach (var ticket in tickets)
                                                                 {
+                                                                    <tr>
+                                                                        <th>@ticket.Created.UtcDateTime </th>
+                                                                        <th>@ticket.Title</th>
+                                                                        <th>@ticket.Description</th>
+                                                                        <th>@ticket.Owneruser.FullName</th>
+                                                                         @if(ticket.AssignToUser == null)
+                                                                         {
+                                                                             <th> </th>
+                                                                         }
+                                                                         else
+                                                                         {
+                                                                            <th>@ticket.AssignToUser.FullName</th>
+                                                                         }
+                                                                        
+                                                                        <th><a href="@Url.Action("Details","Tickets", new {id = ticket.Id })">@ticket.Comments.Count</a></th>
 
+                                                                        <th>
+                                                                            @ticket.TicketStatusid
+                                                                        </th>
+                                                                        <th>
+                                                                            @if (User.IsInRole("Admin"))
+                                                                            { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />
+                                                                           
+
+                                                                            }
+                                                                          
+
+                                                                            <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a> <br />
+                                                                        </th>
+                                                                    </tr>
                                                                 }
 
-                                                            }
-                                                        </th>
-                                                        <th>
-                                                            @if (User.IsInRole("Admin"))
-                                                            { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
-                                                            <a href="@Url.Action("Delete","Projects" , new {id = project.Id })">Delete</a>    <br />
-
-                                                            }
-                                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                                            {
-
-                                                                <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
-
-                                                            }
-
-                                                            <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
-                                                        </th>
-                                                    </tr>
-                                                }
-
-
-                                            </tbody>
-                                        </table>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane active" id="tabThree">
+                                                <form class="form-inline">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="password" class="form-control" id="pwd" placeholder="Password">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info">Submit</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+
+
                             </div>
                         </div>
                     </div>
 
+
+
+
+
+
+                    <!-- Main container ends -->
+                    <!-- Footer starts -->
+                    <footer class="footer">
+                        Copyright Garrett Lance <span>2017</span>.
+                    </footer>
+                    <!-- Footer ends -->
+
                 </div>
-
-
-                <!-- Main container ends -->
-                <!-- Footer starts -->
-                <footer class="footer">
-                    Copyright Garrett Lance <span>2017</span>.
-                </footer>
-                <!-- Footer ends -->
-
-            </div>
             <!-- Dashboard wrapper ends -->
         </div>
         <!-- Container fluid ends -->
@@ -1147,7 +1279,7 @@
 
       
         <!-- Theme Switcher -->
-        <script src="~/Mustang/design/js/themeSwitcher.js"></script>
+       
 
         <!-- Common JS -->
         <script src="~/Mustang/design/js/common.js"></script>
@@ -1162,8 +1294,89 @@
             <script src="~/Mustang/design/js/datatables/fixedHeader.min.js"></script>
             <script src="~/Mustang/design/js/datatables/autoFill.min.js"></script>
             <script src="~/Mustang/design/js/datatables/autoFill.bootstrap.min.js"></script>
-      
 
+        <script src="~/Mustang/design/js/flot/jquery.flot.min.js"></script>
+        <script src="~/Mustang/design/js/flot/jquery.flot.time.min.js"></script>
+        <script src="~/Mustang/design/js/flot/jquery.flot.pie.min.js"></script>
+        <script src="~/Mustang/design/js/flot/jquery.flot.stack.min.js"></script>
+        <script src="~/Mustang/design/js/flot/jquery.flot.tooltip.min.js"></script>
+        <script src="~/Mustang/design/js/flot/jquery.flot.resize.min.js"></script>
+      
+        <script>
+            $(function () {
+
+                var d1, d2, data, chartOptions;
+
+                var d1 = [[1262304000000, @ViewBag.TicketsAdded5MonthsAgo], [1264982400000, @ViewBag.TicketsAdded4MonthsAgo], [1267401600000, @ViewBag.TicketsAdded3MonthsAgo], [1270080000000, @ViewBag.TicketsAdded2MonthsAgo], [1272672000000, @ViewBag.TicketsAddedLastMonth], [1275350400000, @ViewBag.TicketsAddedThisMonth]];
+
+                var d2 = [[1262304000000, @ViewBag.TicketsCompleted5MonthsAgo], [1264982400000, @ViewBag.TicketsCompleted4MonthsAgo], [1267401600000, @ViewBag.TicketsCompleted3MonthsAgo], [1270080000000, @ViewBag.TicketsCompleted2MonthsAgo], [1272672000000, @ViewBag.TicketsCompletedLastMonth], [1275350400000, @ViewBag.TicketsCompletedThisMonth]];
+
+                data = [
+                    {
+                        label: "Added",
+                        data: d1
+                    },
+                    {
+                        label: "Completed",
+                        data: d2
+                    }
+                ];
+
+                chartOptions = {
+                    xaxis: {
+                        min: (new Date(2009, 11)).getTime(),
+                        max: (new Date(2010, 5)).getTime(),
+                        mode: "time",
+                        tickSize: [1, "month"],
+                        monthNames: ["@ViewBag.MonthsAgo5", "@ViewBag.MonthsAgo4", "@ViewBag.MonthsAgo3", "@ViewBag.MonthsAgo2", "@ViewBag.LastMonth", "@ViewBag.ThisMonth"],
+                        tickLength: 0
+                    },
+                    yaxis: {
+
+                    },
+                    series: {
+                        lines: {
+                            show: true,
+                            fill: false,
+                            lineWidth: 2,
+                        },
+                        points: {
+                            show: true,
+                            radius: 4,
+                            fill: true,
+                            fillColor: "#ffffff",
+                            lineWidth: 2
+                        }
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        borderWidth: 1,
+                        tickColor: '#eaeaea',
+                        borderColor: '#eaeaea',
+                    },
+                    shadowSize: 0,
+                    legend: {
+                        show: true,
+                        position: 'nw'
+                    },
+
+                    tooltip: true,
+                    tooltipOpts: {
+                        content: '%s: %y'
+                    },
+                    colors: ['#3a86c8', '#64bd63', '#6dc6cd', '#52bf8a', '#638ca5'],
+                };
+
+
+
+                var holder = $('#line-chart');
+
+                if (holder.length) {
+                    $.plot(holder, data, chartOptions);
+                }
+            });
+        </script>
 
         <script type="text/javascript">
             //Datepicker
@@ -1171,6 +1384,5 @@
                 $("#datepicker").datepicker();
             });
         </script>
-
-
+       
     </body>

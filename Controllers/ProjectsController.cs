@@ -72,6 +72,7 @@ namespace GlanceBugTracker.Controllers
                 project.Author = ViewBag.FullName;
                 project.AuthorId = User.Identity.GetUserId();
                 project.AuthorId = project.Author;
+                project.Archive = false;
                 project.Created = DateTimeOffset.UtcNow;
                 db.Projects.Add(project);
                 db.SaveChanges();
@@ -198,6 +199,48 @@ namespace GlanceBugTracker.Controllers
             return View();
             
         }
+
+        //Get:Archive
+        [Authorize]
+        [HttpPost]
+        public ActionResult Archive(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            project.Archive = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
+        //Get:Unarchive
+        [Authorize]
+        [HttpPost]
+        public ActionResult Unarchive(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            project.Archive = false;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

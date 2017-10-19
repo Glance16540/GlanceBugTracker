@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<GlanceBugTracker.Models.CodeFirst.Ticket>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Archive";
 }
 
 <link href="~/Mustang/design/css/datatables/dataTables.bs.min.css" rel="stylesheet" />
@@ -16,7 +15,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel panel-light">
             <div class="panel-heading">
-                <h4>Tickets</h4>
+                <h4>Archived Tickets</h4>
             </div>
 
             <div class="panel-body">
@@ -42,6 +41,11 @@
 
                             @foreach (var ticket in Model)
                             {
+                                if (ticket.Archive == true)
+                                {
+
+
+
                                 <tr>
                                     <th>@ticket.Created.UtcDateTime </th>
                                     <th>@ticket.Title</th>
@@ -58,21 +62,13 @@
                                     }
                                     <th>@ticket.TicketStatus.Name</th>
                                     <th>
-                                        @if (User.IsInRole("Admin"))
-                                        { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />
-                                            <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />
-
-                                        }
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                        {
-
-                                            <a href="@Url.Action("AssignDeveloper","Tickets" , new {id = ticket.Id })">Assign Developer</a>   <br />
-
-                                        }
-
-                                        <a href="@Url.Action("Details","Tickets" , new {id = ticket.Id })">Details</a>
+                                       
+                                        <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })">Details</a>
                                     </th>
                                 </tr>
+                                }
+                               
+
                             }
 
 

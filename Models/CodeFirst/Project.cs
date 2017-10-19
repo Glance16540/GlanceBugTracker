@@ -22,6 +22,7 @@ namespace GlanceBugTracker.Models.CodeFirst
         public string Description { get; set; }
         public string AuthorId { get; set; }
         public string Author { get; set; }
+        public bool Archive { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }

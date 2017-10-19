@@ -709,6 +709,7 @@
     <Content Include="Views\Tickets\EditComment.cshtml" />
     <Content Include="Views\Tickets\DeleteComment.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
+    <Content Include="Views\Tickets\Archive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

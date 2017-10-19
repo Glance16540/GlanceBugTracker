@@ -141,11 +141,11 @@
                 </div>
 
                 @if (User.Identity.IsAuthenticated)
-            {
+                 {
 
 
-                using (Html.BeginForm("CreateComment", "Tickets", new { TicketId = Model.Id, ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
+                   using (Html.BeginForm("CreateComment", "Tickets", new { TicketId = Model.Id, ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                   {
 
                         @Html.AntiForgeryToken();
                         <div class="form-group">
@@ -163,10 +163,10 @@
                             </div>
                         </div>
 
-                }
+                   }
 
 
-                }
+                 }
 
                 @foreach (var comment in Model.Comments)
             {
