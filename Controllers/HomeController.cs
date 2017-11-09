@@ -146,6 +146,14 @@ namespace GlanceBugTracker.Controllers
         }
 
 
+        public ActionResult FAQ()
+        {
+            
+            return View();
+        }
+
+
+
 
         protected override void Dispose(bool disposing)
         {

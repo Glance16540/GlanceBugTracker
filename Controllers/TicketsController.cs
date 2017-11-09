@@ -101,15 +101,17 @@ namespace GlanceBugTracker.Controllers
 
         //POST: Tickets/AssignDeveloper/
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles =("Admin , Project Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignDeveloper(string AssignToUserId, int id, EmailModel model)
         {
+            var user = db.Users.Find(User.Identity.GetUserId());
             Ticket ticket = db.Tickets.Find(id);
             ticket.AssignToUserId = AssignToUserId;
             ticket.TicketStatusid = db.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id;
-            var user = db.Users.Find(User.Identity.GetUserId());
+
             HistoryHelper helper = new HistoryHelper();
+         
             Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
             if (oldTicket.AssignToUserId != ticket.AssignToUserId)
             {
@@ -153,7 +155,8 @@ namespace GlanceBugTracker.Controllers
         {
             var user = db.Users.Find(User.Identity.GetUserId());
             ViewBag.Project = id;
-
+           
+           
             ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Users.Any(u => u.Id == user.Id)), "Id", "Title");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritites, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
@@ -418,13 +421,14 @@ namespace GlanceBugTracker.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    ViewBag.AuthorId = new SelectList(/*db.ApplicationUsers,*/ "Id", "FirstName", ticketcomment.AuthorId);
+                    ViewBag.CommentId = new SelectList(db.TicketComments, "Id", "Title", ticketcomment.Id);
                     ticketcomment.Updated = DateTimeOffset.UtcNow;
                     db.Entry(ticketcomment).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = ticket.Id });
                 }
-                ViewBag.AuthorId = new SelectList(/*db.ApplicationUsers,*/ "Id", "FirstName", ticketcomment.AuthorId);
-                ViewBag.CommentId = new SelectList(db.TicketComments, "Id", "Title", ticketcomment.Id);
+               
                 return RedirectToAction("Details", new { id = ticket.Id });
             }
 
@@ -445,7 +449,7 @@ namespace GlanceBugTracker.Controllers
 
 
         // GET: Comments/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult DeleteComment(int? id)
         {
             if (id == null)
@@ -457,23 +461,39 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            if(User.Identity.GetUserId() == comment.AuthorId|| User.IsInRole("Admin")|| User.IsInRole("Project Manager"))
+            {
+
+                return View(comment);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
         }
 
         // POST: Comments/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteComment(int id)
         {
             Ticket ticket = new Ticket();
             TicketComment ticketcomment = db.TicketComments.Find(id);
-            
+            if (User.Identity.GetUserId() == ticketcomment.AuthorId || User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
 
-            db.TicketComments.Remove(ticketcomment);
-            db.SaveChanges();
-            //return RedirectToAction("Index");
-            return RedirectToAction("UserProjects", "Projects");
+                db.TicketComments.Remove(ticketcomment);
+                db.SaveChanges();
+                //return RedirectToAction("Index");
+                return View(ticket.Id == id);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+           
         }
 
         //POST: Tickets/CreateAttachment
@@ -488,7 +508,7 @@ namespace GlanceBugTracker.Controllers
             {
 
                 var ext = Path.GetExtension(attachFile.FileName).ToLower();
-                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".bmp")
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".bmp" && ext != ".pdf" && ext != ".docx")
                     ModelState.AddModelError("image", "Invalid Format.");
             }
             if (ModelState.IsValid) //makes sure all the properties are bound

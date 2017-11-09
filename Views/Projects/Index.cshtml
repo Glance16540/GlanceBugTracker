@@ -30,11 +30,11 @@
                             <tr>
                                 <th>Created</th>
                                 <th>Title</th>
-                                <th>Description</th>
+                  
                                 <th>Author</th>
                                 <th>Archived</th>
                                 <th>Tickets</th>
-                                <th>Assigned To Project</th>
+                                <th>Assigned</th>
                                 <th>Actions</th>
                                 
                             </tr>
@@ -50,7 +50,7 @@
                                 <tr>
                                     <th>@project.Created.UtcDateTime </th>
                                     <th>@project.Title</th>
-                                    <th>@project.Description</th>
+                             
                                     <th>@project.Author</th>
                                     <th>@project.Archive</th>
                                     <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
@@ -64,17 +64,17 @@
                                          }
                                          else
                                          {
-                                            
+                                           
                                          }
 
                                      }
                                     </th>
                                     <th>
-                                        <a href="@Url.Action("Create","Tickets" , new {id = project.Id })">Create Ticket</a> <br />
+                   
                                         @if (User.IsInRole("Admin") && project.Archive == false)
                                         { <a href="@Url.Action("Edit", "Projects", new { id = project.Id })">Edit</a> <br />
                                         <a href="@Url.Action("Delete", "Projects", new { id = project.Id })">Delete</a>    <br />
-
+                                        <a href="@Url.Action("Create","Tickets" , new {id = project.Id })">Create Ticket</a> <br />
 
 
                                         }

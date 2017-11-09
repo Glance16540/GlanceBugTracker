@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace GlanceBugTracker.Models
 {
-    public class Universal:Controller
+    public class Universal: Controller 
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
@@ -25,6 +25,9 @@ namespace GlanceBugTracker.Models
 
 
 
+                    
+                ViewBag.LastComments = user.Comments.Where(p => p.Id.ToString() == user.Id).Take(5);
+                ViewBag.LastComment = user.Comments.OrderByDescending(p => p.Created.UtcDateTime).Take(5);
                 //ViewBag.CartItems = db.Car.AsNoTracking().Where(c => c.CustomerID == user.Id).ToList();
                 //ViewBag.CartItemsCount = db.Cartitem.AsNoTracking().Where(c => c.CustomerID == user.Id).ToList().Sum(c => c.Count);
                 //var myCart = db.Cartitem.AsNoTracking().Where(c => c.CustomerID == user.Id).ToList();

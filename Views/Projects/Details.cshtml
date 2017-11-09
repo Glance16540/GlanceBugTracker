@@ -9,10 +9,10 @@
 
 
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.Title)</h2>
 
 <div>
-    <h4>Project</h4>
+    <h4>Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -25,17 +25,28 @@
 
 
         </dd>
+        @if (Model.Updated == null)
+        {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
+        }
+      
         
         <dd>
             @if (Model.Updated != null)
             {
                 @Html.ToUserTime(Model.Updated.Value, ViewBag.UserTimeZone as string, "MM-dd-yyyy hh:mm:ss")
             }
-     
+            else
+            {
+
+            }
+
 
 
 
@@ -76,14 +87,14 @@
  
     
     
-   @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+   @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") && Model.Archive == false)
            {
      <a href="@Url.Action("Index","Projects")" class="btn btn-default">Back To Admin List</a>
       <a href="@Url.Action("Edit","Projects" , new {id = Model.Id })" class=" btn btn-danger">Edit Project</a>
    }
-   @if (User.IsInRole("Submitter"))
+   @if (User.IsInRole("Submitter") && Model.Archive == false)
    {
-       <a href=" @Url.Action("Create","Tickets")"class=" btn btn-success">Create A Ticket</a>
+       <a href=" @Url.Action("Create","Tickets", new {id = Model.Id  })"class=" btn btn-success">Create A Ticket</a>
    }
   <a href="@Url.Action("UserProjects" , "Projects")" class="btn btn-primary">Back My Projects List</a>
 </p>
@@ -93,7 +104,14 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel panel-light">
             <div class="panel-heading">
-                <h4>Tickets</h4>
+                @if (Model.Archive == false)
+                {
+                    <h4>Tickets</h4>
+                }
+                else
+                {
+                    <h4>This Project Has Been Archived</h4>
+                }
             </div>
         
             <div class="panel-body">
@@ -119,9 +137,9 @@
                             
                                 @foreach (var ticket in Model.Tickets)
                                 {
-                                    if (ticket.Archive == true)
+                                    if (ticket.Project.Archive == true && !User.IsInRole("Admin"))
                                     {
-
+                                    
                                     }
                                     else
                                     {
@@ -143,6 +161,7 @@
                                             <th>@ticket.TicketStatus.Name</th>
                                             <th>
                                                 @if (User.IsInRole("Admin"))
+
                                                 { <a href="@Url.Action("Edit","Tickets" , new {id = ticket.Id })">Edit</a> <br />
                                                 <a href="@Url.Action("Delete","Tickets" , new {id = ticket.Id })">Delete</a>    <br />
 

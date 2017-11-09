@@ -26,7 +26,7 @@ $(function(){
 	$('#responsiveTable').DataTable({
 		responsive: true,
 		'iDisplayLength': 5,
-	});
+    });
 });
 
 $(function(){

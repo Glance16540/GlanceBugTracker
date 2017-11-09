@@ -231,9 +231,14 @@
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\Assest\MultiSelect.css" />
     <Content Include="Content\Assest\MultiSelect.js" />
+    <Content Include="Content\Assest\UserUploads\675172-data_database_sql_query-512.png" />
+    <Content Include="Content\Assest\UserUploads\6c52120e231ec7a7404c0b68eb09652a.jpg" />
+    <Content Include="Content\Assest\UserUploads\8b61de4c84033266e15317a6eb9fda2d-css3.png" />
+    <Content Include="Content\Assest\UserUploads\c-logo-icon-18.png" />
     <Content Include="Content\Assest\UserUploads\Core App Logo Light edit.png" />
     <Content Include="Content\Assest\UserUploads\Core App Logo Light.png" />
     <Content Include="Content\Assest\UserUploads\Core App Logo.png" />
+    <Content Include="Content\Assest\UserUploads\HTML5_Logo_512.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Landing.css" />
@@ -710,6 +715,7 @@
     <Content Include="Views\Tickets\DeleteComment.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Tickets\Archive.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

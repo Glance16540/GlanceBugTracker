@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GlanceBugTracker.Models;
+using System.Net;
 
 namespace GlanceBugTracker.Controllers
 {
@@ -215,7 +216,13 @@ namespace GlanceBugTracker.Controllers
         //GET
         public ActionResult ChangeName()
         {
+            
             var user = UserManager.FindById(User.Identity.GetUserId());
+            if(user.Id == "00ba53f7-c1e7-423d-a552-0138b685a302" || user.Id == "6787dec5-a81f-4bac-a5e5-f57efef32a04" || user.Id == "a28caf43-84f6-4923-bb3a-a0d614c201fc"|| user.Id == "d735987c-2be9-4b39-961d-7c6031a39593")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             ChangeNameViewModel model = new ChangeNameViewModel();
             model.NewName = user.FirstName;
             return View();
@@ -252,6 +259,13 @@ namespace GlanceBugTracker.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user.Id == "00ba53f7-c1e7-423d-a552-0138b685a302" || user.Id == "6787dec5-a81f-4bac-a5e5-f57efef32a04" || user.Id == "a28caf43-84f6-4923-bb3a-a0d614c201fc" || user.Id == "d735987c-2be9-4b39-961d-7c6031a39593")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             return View();
         }
 

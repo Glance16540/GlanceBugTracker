@@ -27,7 +27,7 @@
                             <tr>
                                 <th>Created</th>
                                 <th>Title</th>
-                                <th>Description</th>
+                              
                                 <th>Author</th>
                                 <th>Tickets</th>
                                 <th>Assigned To Project</th>
@@ -39,47 +39,58 @@
 
 
                         <tbody>
-
+                            
                             @foreach (var project in Model)
                             {
-                                <tr>
+                                if (project.Archive == false)
+                                {
 
-                                    <th>@project.Created.UtcDateTime </th>
-                                    <th>@project.Title</th>
-                                    <th>@project.Description</th>
-                                    <th>@project.Author</th>
-                                    <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
+                                    <tr>
 
-                                    <th>
-                                        @foreach (var person in project.Users)
-                                        {
-                                            if (person.FullName != null)
+                                        <th>@project.Created.UtcDateTime </th>
+                                        <th>@project.Title</th>
+                                     
+                                        <th>@project.Author</th>
+                                        <th><a href="@Url.Action("Details","Projects", new {id = project.Id })">@project.Tickets.Count</a></th>
+
+                                        <th>
+                                            @foreach (var person in project.Users)
                                             {
-                                                @person.FullName <br />
+                                                if (person.FullName != null)
+                                                {
+                                                    @person.FullName <br />
+                                                }
+                                                else
+                                                {
+
+                                                }
+
                                             }
-                                            else
+                                        </th>
+                                        <th>
+                                            @if (User.IsInRole("Admin"))
+                                            { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
+                                            <a href="@Url.Action("Delete","Projects" , new {id = project.Id })">Delete</a>    <br />
+
+                                            }
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                                             {
 
+                                                <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
+
                                             }
 
-                                        }
-                                    </th>
-                                    <th>
-                                        @if (User.IsInRole("Admin"))
-                                        { <a href="@Url.Action("Edit","Projects" , new {id = project.Id })">Edit</a> <br />
-                                                            <a href="@Url.Action("Delete","Projects" , new {id = project.Id })">Delete</a>    <br />
+                                            <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
+                                        </th>
+                                    </tr>
 
-                                        }
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                        {
 
-                                            <a href="@Url.Action("ProjectUser","Projects" , new {id = project.Id })">Assign Users</a>   <br />
 
-                                        }
+                                }
+                                else
+                                {
 
-                                        <a href="@Url.Action("Details","Projects" , new {id = project.Id })">Details</a> <br />
-                                    </th>
-                                </tr>
+                                }
                             }
 
 

@@ -12,14 +12,15 @@ namespace GlanceBugTracker.Models.Helpers
     public class HistoryHelper 
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        
         public void AssignChange(Ticket ticket, string userId)
         {
             TicketHistory ticketHistory = new TicketHistory();
             Ticket oldTicket = db.Tickets.AsNoTracking().First(t => t.Id == ticket.Id);
-            ticketHistory.OldValue = oldTicket.AssignToUser.FullName;
+            ticketHistory.OldValue = oldTicket.AssignToUserId;
             ticketHistory.NewValue = db.Users.Find(ticket.AssignToUserId).FullName;
             ticketHistory.TicketId = ticket.Id;
-            ticketHistory.Property = "AssignToUserId";
+            ticketHistory.Property = "Assigned Developer";
             ticketHistory.Created = DateTimeOffset.UtcNow;
             ticketHistory.AuthorId = userId;
             db.TicketHistories.Add(ticketHistory);

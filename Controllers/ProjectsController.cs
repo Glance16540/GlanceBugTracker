@@ -96,6 +96,11 @@ namespace GlanceBugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            if (project.Archive == true)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+           
             return View(project);
         }
 
@@ -120,33 +125,34 @@ namespace GlanceBugTracker.Controllers
             return View(project);
         }
 
-        // GET: Projects/Delete/5
-        [Authorize(Roles = "Admin , Project Manager")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
+        //// GET: Projects/Delete/5
+        //[Authorize(Roles = "Admin , Project Manager")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Project project = db.Projects.Find(id);
+        //    if (project == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(project);
+        //}
 
-        // POST: Projects/Delete/5
-        [Authorize(Roles = "Admin , Project Manager")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Projects/Delete/5
+        //[Authorize(Roles = "Admin , Project Manager")]
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Project project = db.Projects.Find(id);
+        //    db.Projects.Remove(project);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
         //GET: see project users
         [Authorize(Roles = "Admin , Project Manager")]
         public ActionResult ProjectUser(int id)

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "FAQ";
+}
+
+<h2>FAQ</h2>
+<!-- Main container starts -->
+<div class="main-container">
+    <div class="panel-group faq" id="accordion">
+        <h3>General questions</h3>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseA">Is account registration required?</a>
+                </h4>
+            </div>
+            <div id="collapseA" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <p>
+                        Yes! Account Registration is required to use this application due to the account having to be assigned a role
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseB">Roles? Whats that?</a>
+                </h4>
+            </div>
+            <div id="collapseB" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>Roles are how the application determines your authorization!  </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseC">How Many Tickets Are Allowed In Each Project?</a>
+                </h4>
+            </div>
+            <div id="collapseC" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>
+                        As many as the project needs. This is a fully scaleble application!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <h3>Roles</h3>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseD">Admin</a>
+                </h4>
+            </div>
+            <div id="collapseD" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>The Admin role is the highest authorized role in the entire application. The role can archive projects and tickets and vise versa. It can also assign users to projects and comment on any ticket they want too. They also have acsess to every project and ticket that is created.  </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseE">Project Manager</a>
+                </h4>
+            </div>
+            <div id="collapseE" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>Project Managers are over projects that they are assigned to as well as the tickets attached to those projects. They also have the ablity to assign developers to tickets! They are allowed to change the status of tickets so that they may be archived. </p>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseF">Developers</a>
+                </h4>
+            </div>
+            <div id="collapseF" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>Developers are only allowed to comment on tickets they are assigned. They can delete and edit their own comments.</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseG">Submitter</a>
+                </h4>
+            </div>
+            <div id="collapseG" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>Submitters are only allowed to create a ticket in projects they are assigned to. They are also allowed to communicate on their own tickets via comments.  </p>
+                   
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>
+<!-- Main container ends -->
+
